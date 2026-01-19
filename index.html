@@ -214,6 +214,742 @@
       </section>
 
 
+  <!--======================================-->
+      
+      
+
+
+
+
+    <style>
+    
+    
+
+
+
+    #article-nav {
+    position: relative;
+    }
+    .articles {
+            padding-inline: 8vw;
+            padding-block: 10vh;
+            box-sizing: border-box;
+            word-wrap: break-word;
+    }
+    #header-article {
+    padding-block: 50px;
+    }
+
+    .subtitle {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        line-height: 1.6;
+    }
+
+    .carousel-3d {
+        padding: 20px;
+        padding-top: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: hidden;
+        width: 100%;
+        margin-bottom: 40px;
+    }
+
+    .carousel-3d > * {
+        flex: 0 0 auto;
+    }
+
+    .carousel-container {
+        width: 100%;
+        height: 500px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .carousel-3d .card {
+        width: 500px;
+        height: 450px;
+        border-radius: 15px;
+        overflow: hidden;
+        cursor: pointer;
+        background: #0f3460;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        pointer-events: auto;
+        z-index: 1;
+    }
+
+    .carousel-3d .card img {
+        width: 100%;
+        height: clamp(100px, 50%, 250px);
+        object-fit: cover;
+        user-select: none;
+        transition: transform 0.5s;
+    }
+
+    .carousel-3d .card:hover img {
+        transform: scale(1.05);
+    }
+
+    .card-content {
+        padding:20px;
+        padding-bottom:5px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .card-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: #fff;
+    }
+
+    .card-info {
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: #b0b0b0;
+        overflow: hidden;
+        transition: all 0.5s ease;
+    }
+
+    .card-info.collapsed {
+        max-height: 1.8em;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        position: relative;
+        cursor: pointer;
+        font-size: calc((var(--normal-text-size-value) - 1) * 1.0vw + 1rem);
+        line-height: var(--body-font-line-height);
+        font-family: cursive;
+    }
+
+    .card-info.collapsed::after {
+        content: "... [нажмите, чтобы развернуть]";
+        color: #4361ee;
+        font-weight: bold;
+    }
+
+    .card-info.expanded {
+        max-height: 420px;
+        opacity: 1;
+        overflow-y: auto;
+        margin: 10px;
+        white-space: normal;
+        text-overflow: clip;
+        font-size: calc((var(--normal-text-size-value) - 1) * 1.0vw + 1rem);
+        line-height: var(--body-font-line-height);
+        font-family: cursive;
+    }
+
+    .card-info.expanded::after {
+        content: "";
+    }
+
+    .card-info::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .card-info::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 3px;
+    }
+
+    .card-info::-webkit-scrollbar-thumb {
+        background: #4361ee;
+        border-radius: 3px;
+    }
+
+    .carousel-3d nav {
+        display: flex;
+        justify-content: center;
+        margin: 40px 0 0;
+        gap: 20px;
+    }
+
+    .carousel-3d nav button {
+        flex: 0 0 auto;
+        cursor: pointer;
+        color: #fff;
+        background: rgba(67, 97, 238, 0.7);
+        border: none;
+        padding: 12px 24px;
+        font-size: 1rem;
+        font-weight: bold;
+        border-radius: 50px;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(5px);
+    }
+
+    .carousel-3d nav button:hover {
+        background: rgba(76, 201, 240, 0.8);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .indicators {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: rgba(100, 100, 100, 0.2);
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+
+    .carousel-3d .card img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    user-select: none;
+    transition: all 0.5s ease;
+}
+
+.carousel-3d .card img.hidden {
+    height: 0;
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+    .indicator.active {
+        background: #4cc9f0;
+        transform: scale(1.3);
+    }
+
+    @media (max-width: 900px) {
+        .carousel-container {
+            height: 450px;
+        }
+
+        .carousel-3d .card {
+            width: 270px;
+            height: 400px;
+        }
+
+        .carousel-3d .card img {
+            height: 200px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .carousel-container {
+            height: 400px;
+        }
+
+        .carousel-3d .card {
+            width: 250px;
+            height: 350px;
+        }
+
+        .carousel-3d nav button {
+            padding: 10px 20px;
+        }
+
+        .card-info.collapsed {
+            max-height: 1.6em;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .carousel-container {
+            height: 380px;
+        }
+
+        .carousel-3d .card {
+            width: 220px;
+            height: 330px;
+        }
+
+        .carousel-3d .card img {
+            height: 160px;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+        }
+
+        .card-info {
+            font-size: 0.85rem;
+        }
+
+        .card-info.collapsed {
+            max-height: 1.4em;
+        }
+        
+        .carousel-3d nav {
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .card-content {
+            padding: 8px;
+        }
+    }
+</style>
+
+
+
+    <div class="carousel-3d" data-gap="20">
+        <div class="carousel-container" id="carouselContainer">
+            <!-- Карточки будут сгенерированы с помощью JavaScript -->
+        </div>
+        <nav id="article-nav">
+            <button class="nav prev">Назад</button>
+            <button class="nav next">Вперед</button>
+        </nav>
+        <div class="indicators" id="indicators">
+            <!-- Индикаторы будут сгенерированы с помощью JavaScript -->
+        </div>
+    </div>
+
+
+
+    <script>
+        window.addEventListener("load", () => {
+            const cardsData = [
+                {
+                    id: 1,
+                    title: "Давайте задумаемся...",
+                    image: "static/images/photo_2025-10-05_18-48-33.jpg",
+                    info: "Давайте задумаемся... Мы всегда готовы подать руку помощи тому, кто борется с онкологией, сердечно-сосудистыми заболеваниями или диабетом. Мы окружаем их заботой, пониманием и состраданием.<br><br>Но что происходит, когда рядом человек с психическим расстройством? Почему-то люди часто сторонятся их, боятся их, не зная, как правильно реагировать.<br><br>Хотим мы разобраться в этом вместе? Давайте попробуем понять, что стоит за этим страхом, и как мы можем изменить своё отношение к людям с этими заболеваниями.<br><br>Поделитесь своими мыслями! Вы когда-нибудь сталкивались с ситуациями, когда люди с психическим расстройством были непоняты или обижены? Как вы думаете, мы можем сделать наш мир более добрым и принимающим для всех?"
+                },
+                {
+                    id: 2,
+                    title: "Осенняя хандра",
+                    image: "static/images/photo_2025-10-06_18-01-53.jpg",
+                    info: "Осень - время года, когда природа одевается в яркие цвета, а наши биоритмы начинают работать в другом режиме. Осенняя хандра - явление, знакомое многим. Но что такое осенняя хандра на самом деле? Стоит ли ее лечить или это естественное проявление наших биоритмов? Осенняя хандра связана с изменением природных условий. Сокращение светового дня, похолодание и уменьшение количества солнечного света влияют на наш организм. В результате, наши биоритмы начинают работать в другом режиме. Люди чувствуют ухудшение настроения, снижение энергии, повышенную утомляемость, снижение мотивации, проблемы со сном. Отношения с близкими и друзьями могут стать более напряженными, работа может казаться более сложной, а творческие проекты могут быть отложены. Осенняя хандра - это не болезнь, которую нужно лечить, а период, который нужно пережить. Приняв осеннюю хандру как естественное явление, мы можем научиться жить с ней и даже найти в ней положительные стороны. Ведь осень - время для размышлений, творчества и новых идей. 🍁"
+                },
+                {
+                    id: 3,
+                    title: "Бывших наркоманов не бывает",
+                    image: "static/images/photo_2025-10-09_15-20-04.jpg",
+                    info: "Совсем недавно у меня был день рождения. Уже больше 20 лет в этот день меня поздравляет мой пациент, бывший героиновый наркоман. У него стабильный бизнес, крепкая семья, много друзей и классная собака!<br> Часто мы слышим, что человек 'вылечился' от наркомании, что он 'бывший наркоман'. Но правда ли это?<br>Специалисты считают, что бывших наркоманов не бывает. Наркозависимость - это хроническое заболевание, которое может быть контролируемо, но не всегда излечимо полностью.<br>Даже если человек смог преодолеть зависимость и ведет нормальную жизнь, он всегда должен быть осведомлен о рисках рецидива и продолжать работать над своей трезвостью.<br>Давайте будем реалистами и поддержим тех, кто борется с зависимостью, а также тех, кто уже преодолел ее, но продолжает работать над своей трезвостью."
+                },
+                {
+                    id: 4,
+                    title: "В чем отличие?",
+                    image: "static/images/photo_2025-10-10_15-52-46.jpg",
+                    info: "Осенняя хандра или Сезонное аффективное расстройство (САР): в чем отличие?<br><br>Осенняя хандра - это обычное состояние, которое может испытывать каждый из нас в период смены сезонов. Это может проявляться в виде:<br>-немного сниженного настроения,<br>-усталости,<br>-желания уюта и тепла.<br><br>Но САР - это более серьезное состояние, которое может влиять на вашу повседневную жизнь.<br>Симптомы САР:<br>-сильное снижение настроения в течение более 2 недель,<br>-потеря энергии,<br>-трудности с концентрацией внимания,<br>-изменения аппетита и сна.<br><br>Характерная особенность САР: оно повторяется на протяжении нескольких лет в одно и то же время, обычно осенью или зимой.<br><br>Пример: ваша подруга Маша грустит и устает осенью, но она все равно ходит на работу, общается с друзьями и находит время для хобби. А ваш друг Сергей осенью практически не выходит из дома, не может сосредоточиться на работе, и его отношения с близкими ухудшаются.<br><br> Сезонное аффективное расстройство обязательно нужно лечить! <br>Во время обращайтесь за помощью!"
+                },
+                {
+                    id: 5,
+                    title: "Рехабы - это важно!",
+                    image: "static/images/photo_2025-10-11_17-02-07.jpg",
+                    info: "Много лет работая в отделении для лечения тяжелых пациентов с зависимостью от алкоголя и наркотиков, я проводила сложное детоксикационное лечение. Приходилось лечить пациентов с тяжелыми сопутствующими заболеваниями, острыми психозами, тяжелыми абстинентными синдромами. Это тяжелый этап не только для пациента, но и для врача.<br><br>Дальше шел этап становления терапевтической ремиссии. И подходил срок для выписки пациента из стационара. <br>'А что дальше?' - спрашивали меня пациенты и их родственники.<br>'А дальше начинается не менее ответственный этап', - отвечала я. Он более длительный, но именно от него зависило становление стойкой ремиссии у пациентов.<br><br>После выписки  пациенты обычно направлялись в реабилитационные центры, или, как их называют, рехабы.  Там пациенты продолжали работать со своими проблемами,  укрепляя мотивацию и навыки трезвости. <br>Главное, что рехабы дают шанс на новую жизнь, свободную от зависимости. <br><br>Если в вас был опыт лечения или работы в рехабе, поделитесь им."
+                },
+                {
+                    id: 6,
+                    title: "Деменцию обязательно нужно лечить!",
+                    image: "static/images/photo_2025-10-13_08-52-49.jpg",
+                    info: "Деменция - это синдром, характеризующийся прогрессивным снижением когнитивных функций, включая память, мышление, речь и способность к повседневной деятельности.<br>Основные симптомы:<br>* Расстройства памяти<br>* Трудности с речью и общением<br>* Проблемы с мышлением и решением задач<br>* Снижение способности к повседневной деятельности<br>С прогрессированием заболевания могут присоединиться<br>*Агрессия, раздражительность и тревожность.<br>*Депрессия:  может проявляться в виде снижения настроения, потери интереса к деятельности и изменениях в аппетите и сне.<br>*Бред и галлюцинации.<br>*Расстройства сна:  такие как бессонница или дневная сонливость.<br>*Изменения личности:  апатия, безынициативность и снижение эмоциональной реакции.<br><br>Что делать? Лечить!<br>Чем раньше начать терапию, тем она будет успешнее и сможет продлить пациенту жизнь и качество его жизни!"
+                },
+                {
+                    id: 7,
+                    title: "Аутизм",
+                    image: "static/images/photo_2025-10-15_11-04-41.jpg",
+                    info: "Аутизм - это не просто диагноз, это другая грань восприятия мира<br><br>Сегодня я хочу поговорить об аутизме и его распространении среди взрослых и детей. По данным Всемирной организации здравоохранения, каждый 100-й ребенок в мире имеет аутизм. Но что мы знаем об этом состоянии?<br><br>Темпл Грандин - известный ученый, профессор и сторонник прав людей с аутизмом. Она одна из самых известных людей с аутизмом в мире и является ярким примером того, что люди с аутизмом могут достичь больших высот.<br><br>История Темпл Грандин вдохновила создание фильма 'Темпл Грандин' (2010), который рассказывает о ее детстве и пути к становлению ученым. Фильм получил несколько наград и стал важным шагом в популяризации темы аутизма.<br><br>Темпл Грандин - это пример силы и мужества. Она доказывает, что люди с аутизмом могут быть успешными, талантливыми и нужными обществу.<br><br>Давайте вместе сделаем мир более инклюзивным и понимающим для людей с аутизмом!"
+                },
+				{
+                    id: 8,
+                    title: "Синдром Аспергера и необычное применение!",
+                    image: "static/images/photo_2025-10-29_10-31-28.jpg",
+                    info: "Ранний детский аутизм – заболевание неизлечимое. Такие дети имеют инвалидность. Тяжелая форма представлена синдромом Каннера, более легкая – синдромом Аспергера.<br><br>Люди с синдромом Аспергера часто имеют выдающиеся, а порой и гениальные способности головного мозга.<br><br>Сложность у этих пациентов заключается в социальной адаптации. И вот недавно я узнала, что в армию Израиля приглашают людей с синдромом Аспергера в отдел картографии. Эти люди без труда запоминают карты в связи с уникальными способностями головного мозга. А такие вещи, как перехват информации, в этом случае полностью исключены.<br>Ведь все в голове у военнослужащего."
+                },
+				{
+                    id: 9,
+                    title: "Самодиагностика психических расстройств",
+                    image: "static/images/photo_2025-11-05_13-12-58.jpg",
+                    info: "Самодиагностика психических расстройств: как понять, что нужно обратиться за помощью?<br><br>Задайте себе вопросы:<br><br>* Как я себя чувствую в последнее время? <br>* Есть ли у меня изменения в настроении, сне, аппетите? <br>* Испытываю ли я тревогу, страх или панические атаки? <br>* Есть ли у меня проблемы с концентрацией внимания или памятью? <br>* Чувствую ли я себя изолированным или оторванным от окружающих? <br><br>Признаки, которые могут указывать на психическое расстройство:<br><br>* Постоянная тревога или страх <br>* Изменения настроения (апатия, депрессия, эйфория) <br>* Проблемы со сном или аппетитом <br>* Усталость или отсутствие энергии <br>* Трудности с концентрацией внимания или памятью <br>* Чувство изолированности или оторванности от окружающих <br><br>Психическое здоровье так же важно, как и физическое. <br>Обращение за помощью - признак силы, а не слабости. <br>Вы не одни - многие люди сталкиваются с психическими расстройствами и успешно их преодолевают."
+                },
+				{
+                    id: 10,
+                    title: "Ноотропы: лечить или нет?",
+                    image: "static/images/photo_2025-10-25_08-34-18.jpg",
+                    info: "Занимаясь детской психиатрией, я неоднократно замечала дискуссию между логопедами, педагогами и родителями об эффективности ноотропов. Дискуссия всегда крутится возле якобы недоказанной эффективности этих препаратов.Хочу поставить точку в этом вопросе. <br><br>Часто в детской практике назначают ноотропы при задержке речевого развития или задержке речевого и психического развития.<br><br>При небольшой задержке речевого развития иногда хватает рекомендации родителям убрать у ребёнка гаджеты и начинать с ним разговаривать и петь песенки. 'Поймите, ничто не заменит человеческую речь!' - очень часто я говорю таким родителям. Иногда пару занятий с педагогом и речь у ребенка начинает развиваться в соответствии с возрастом.<br><br>Но есть и другие дети. Так вот там без ноотропов не обойтись. Дети часто имеют в анамнезе токсикоз у мамы во время беременности, тяжелые роды, длительный безводный период, гипоксию в родах и т.д.<br><br>Вот этим детям нужно обязательно проходить обследование и, как правило, поддерживать работу головного мозга курсовыми приемами ноотропов. Тогда это будут совсем другие дети с другим развитием психических функций.<br><br>Как врач-практик подведу итог, основанный на своем опыте. Ноотропы действуют. Но подбирать их нужно очень тщательно, потому что спектр их действия очень различный.<br><br>Не забывайте обращать внимание не только на физическое развитие ребёнка, но и на своевременное развитие его психических функций. Во время начатое лечение избавит вашего ребёнка и вас от многих проблем в будущем."
+                },
+
+                {
+                    id: 11,
+                    title: "Если ваш родственник болен шизофренией, то",
+                    image: "static/images/photo_2026-01-17_10-51-18.jpg",
+                    info: "1. Шизофрения- это хроническое заболевание. Полного излечения нет.<br>2.Пациенты часто отказываются от приёма лекарств. Следите за этим. Прием медикаментозных препаратов предотвратит приступы и нарастание личностного дефекта. <br>3. Живите своей обычной жизнью. Не растворяйтесь в жизни больного.<br>4. Гиперопека и гиперконтроль не уместны. Многие пациенты могут работать и вести обычную жизнь вне обострений.<br>5. Эмоционально не вовлекайтесь  в переживания больного.Можете приобрести индуцированное расстройство психики. <br>6. Эмоциональная холодность и отчужденность пациентов от близких людей - это особенность этого заболевания. Пациенты могут быть жестоки с родными, но долго плакать , увидев на улице брошенного котенка.<br>7. Определите круг доверенных людей, кто будет знать о заболевании. В нужный момент они вам могут помочь. Рассказывать всем подряд не нужно. Стигматизация этого заболевания до сих пор находится на максимальном уровне. Люди  с большой настороженностью  относятся к такой информации.<br>8. Как правило, обострение заболевания начинается с расстройства сна. В некоторых случаях - с депрессии или мании. Пациенты либо запираются у себя в комнате, перестают кушать, много лежат и молчат. Либо наоборот, многоречивы, безрезультативно суетливы, очень подвижны.<br>9. Опасность суицида в период обострения максимальная. Суицид часто законченный.<br>10. Следует избегать обострений не только из-за того, что в эти моменты пациенты могут быть опасны для себя и окружающих, но каждое обострение имеет последствия для психики и не всегда, пациенты возвращаются к первоначальному состоянию. Дефект личности нарастает.<br>11. На случай возникновения обострения, разработайте антикризисный план. На листке бумаги напишите имя психиатра,  телефон, в случае необходимости госпитализация, название больницы, адрес и номер телефона приемного покоя, список вещей, который необходимо взять с собой и разрешен при госпитализации.<br>12. В случае агрессии и психомоторного возбуждения не терпите, само это не пройдет. Состояние будет только ухудшаться. Вызывайте скорую психиатрическую помощь по телефону 103."
+                },
+
+                {
+                    id: 12,
+                    title: "Смотрите больше статей в моем telegram-канале",
+                    image: "static/images/logo.JPG",
+                    info: "https://t.me/ya_slushayu_tebya"
+                }
+
+            ];
+
+
+        const carouselContainer = document.querySelector('.carousel-container');
+        const indicatorsContainer = document.getElementById('indicators');
+
+        // Переменная для отслеживания открытой карточки
+        let isCardExpanded = false;
+        let autoRotateInterval;
+
+        // Функция для извлечения первого предложения
+        // Функция для извлечения первого предложения с учетом HTML
+
+function getFirstSentence(htmlText) {
+    // Создаем временный элемент для парсинга HTML
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlText;
+
+    // Получаем текстовое содержимое без тегов
+    const text = tempDiv.textContent || tempDiv.innerText || '';
+
+    // Разбиваем на предложения по знакам препинания
+    const sentences = text.split(/(?<=[.!?])\s+/);
+    return sentences[0] || text;
+}
+
+// Функция для проверки, является ли текст одним предложением
+function isSingleSentence(htmlText) {
+    // Создаем временный элемент для парсинга HTML
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlText;
+
+    // Получаем текстовое содержимое без тегов
+    const text = tempDiv.textContent || tempDiv.innerText || '';
+
+    const sentenceCount = (text.match(/[.!?]+/g) || []).length;
+    return sentenceCount <= 1;
+}
+
+        // Создаем все карточки
+        cardsData.forEach((card, index) => {
+            const cardElement = document.createElement('div');
+            cardElement.className = 'card';
+            cardElement.dataset.index = index;
+
+            // Получаем первое предложение для свернутого состояния
+            const firstSentence = getFirstSentence(card.info);
+            const showToggle = !isSingleSentence(card.info);
+
+            cardElement.innerHTML = `
+                <img src="${card.image}" alt="${card.title}"/>
+                <div class="card-content">
+                    <h3 class="card-title">${card.title}</h3>
+                    <div class="card-info collapsed">${showToggle ? firstSentence : card.info}</div>
+                </div>
+            `;
+
+            // Обработчик клика для раскрытия/сворачивания информации
+            cardElement.addEventListener('click', function(e) {
+            e.stopPropagation();
+
+            const cardIndex = parseInt(this.dataset.index);
+            const currentActive = document.querySelector('.card.active');
+            const currentActiveIndex = currentActive ? parseInt(currentActive.dataset.index) : -1;
+            const infoElement = this.querySelector('.card-info');
+            const imageElement = this.querySelector('img');
+
+            // Если кликнули по активной карточке
+            if (cardIndex === currentActiveIndex) {
+                // Переключаем видимость картинки
+                imageElement.classList.toggle('hidden');
+
+                // Переключаем состояние текста
+                if (infoElement.classList.contains('collapsed')) {
+                    // Разворачиваем - показываем полный текст с HTML
+                    infoElement.classList.remove('collapsed');
+                    infoElement.classList.add('expanded');
+                    infoElement.innerHTML = cardsData[cardIndex].info;
+                    // Останавливаем автопрокрутку при открытии карточки
+                    isCardExpanded = true;
+                    stopAutoRotate();
+                } else {
+                    // Сворачиваем - показываем только первое предложение
+                    infoElement.classList.remove('expanded');
+                    infoElement.classList.add('collapsed');
+                    const firstSentence = getFirstSentence(cardsData[cardIndex].info);
+                    const showToggle = !isSingleSentence(cardsData[cardIndex].info);
+                    infoElement.textContent = showToggle ? firstSentence : getFirstSentence(cardsData[cardIndex].info);
+                    // Возобновляем автопрокрутку при закрытии карточки
+                    isCardExpanded = false;
+                    startAutoRotate();
+                }
+            }
+            // Если кликнули по неактивной карточке - делаем ее активной
+            else {
+                // При переходе к новой карточке убеждаемся, что картинка видима
+                document.querySelectorAll('.card img.hidden').forEach(img => {
+                    img.classList.remove('hidden');
+                });
+
+                // Если была открыта карточка, сворачиваем ее
+                if (isCardExpanded) {
+                    const activeCard = document.querySelector('.card.active');
+                    if (activeCard) {
+                        const activeInfoElement = activeCard.querySelector('.card-info');
+                        if (activeInfoElement.classList.contains('expanded')) {
+                            activeInfoElement.classList.remove('expanded');
+                            activeInfoElement.classList.add('collapsed');
+                            const activeCardIndex = parseInt(activeCard.dataset.index);
+                            const firstSentence = getFirstSentence(cardsData[activeCardIndex].info);
+                            const showToggle = !isSingleSentence(cardsData[activeCardIndex].info);
+                            activeInfoElement.textContent = showToggle ? firstSentence : getFirstSentence(cardsData[activeCardIndex].info);
+
+                            // Возвращаем картинку
+                            const activeImageElement = activeCard.querySelector('img');
+                            activeImageElement.classList.remove('hidden');
+                        }
+                    }
+                    isCardExpanded = false;
+                    startAutoRotate();
+                }
+
+                goToCard(cardIndex);
+            }
+        });
+
+            carouselContainer.appendChild(cardElement);
+
+            // Создаем индикаторы
+            const indicator = document.createElement('div');
+            indicator.className = 'indicator';
+            indicator.dataset.index = index;
+            indicatorsContainer.appendChild(indicator);
+        });
+
+        // Инициализация карусели
+        const cards = document.querySelectorAll('.card');
+        const indicators = document.querySelectorAll('.indicator');
+        const prevBtn = document.querySelector('.nav.prev');
+        const nextBtn = document.querySelector('.nav.next');
+
+        let currentIndex = 0;
+        const totalCards = cards.length;
+
+        // Позиционируем карточки
+        function positionCards() {
+            cards.forEach((card, index) => {
+                const distance = Math.min(
+                    Math.abs(index - currentIndex),
+                    totalCards - Math.abs(index - currentIndex)
+                );
+
+                let transform = '';
+                let zIndex = 1;
+                let opacity = 1;
+
+                // Активная карточка
+                if (index === currentIndex) {
+                    transform = 'translateX(0) scale(1.15)';
+                    zIndex = 100;
+                    opacity = 1;
+                    card.classList.add('active');
+                    card.classList.remove('prev', 'next');
+                }
+                // Карточка слева
+                else if (index === (currentIndex - 1 + totalCards) % totalCards) {
+                    transform = 'translateX(-150px) scale(0.85)';
+                    zIndex = 50;
+                    opacity = 0.7;
+                    card.classList.remove('active');
+                    card.classList.add('prev');
+                    card.classList.remove('next');
+                }
+                // Карточка справа
+                else if (index === (currentIndex + 1) % totalCards) {
+                    transform = 'translateX(150px) scale(0.85)';
+                    zIndex = 50;
+                    opacity = 0.7;
+                    card.classList.remove('active');
+                    card.classList.remove('prev');
+                    card.classList.add('next');
+                }
+                // Остальные карточки
+                else {
+                    transform = 'translateX(0) scale(0.7)';
+                    zIndex = 10;
+                    opacity = 0.3;
+                    card.classList.remove('active', 'prev', 'next');
+                }
+
+                card.style.transform = transform;
+                card.style.zIndex = zIndex;
+                card.style.opacity = opacity;
+            });
+
+            // Обновляем индикаторы
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        // Переход к конкретной карточке
+        function goToCard(index) {
+            currentIndex = index;
+            positionCards();
+            // При переходе к новой карточке сворачиваем все статьи
+            collapseAllCards();
+        }
+
+        // Сворачиваем все карточки до первого предложения
+        // Сворачиваем все карточки до первого предложения
+// Сворачиваем все карточки до первого предложения
+// Сворачиваем все карточки до первого предложения
+    function collapseAllCards() {
+        cards.forEach((card, index) => {
+            const infoElement = card.querySelector('.card-info');
+            const imageElement = card.querySelector('img');
+            const cardData = cardsData[index];
+            const firstSentence = getFirstSentence(cardData.info);
+            const showToggle = !isSingleSentence(cardData.info);
+
+            // Показываем картинку при переключении карточек
+            imageElement.classList.remove('hidden');
+
+            infoElement.classList.remove('expanded');
+            infoElement.classList.add('collapsed');
+            infoElement.textContent = showToggle ? firstSentence : getFirstSentence(cardData.info);
+        });
+
+        // Сбрасываем состояние открытой карточки
+        isCardExpanded = false;
+        startAutoRotate();
+    }
+
+        // Следующая карточка
+        function nextCard() {
+            currentIndex = (currentIndex + 1) % totalCards;
+            positionCards();
+            collapseAllCards();
+        }
+
+        // Предыдущая карточка
+        function prevCard() {
+            currentIndex = (currentIndex - 1 + totalCards) % totalCards;
+            positionCards();
+            collapseAllCards();
+        }
+
+        // Навигация
+        prevBtn.addEventListener('click', prevCard);
+        nextBtn.addEventListener('click', nextCard);
+
+        // Индикаторы
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => goToCard(index));
+        });
+
+        // Drag для вращения карусели
+        let startX = 0;
+        let isDragging = false;
+        const dragThreshold = 50;
+
+        carouselContainer.addEventListener('mousedown', (e) => {
+            startX = e.clientX;
+            isDragging = true;
+        });
+
+        carouselContainer.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+
+            const currentX = e.clientX;
+            const diff = startX - currentX;
+
+            if (Math.abs(diff) > dragThreshold) {
+                if (diff > 0) {
+                    nextCard();
+                } else {
+                    prevCard();
+                }
+                isDragging = false;
+            }
+        });
+
+        carouselContainer.addEventListener('mouseup', () => {
+            isDragging = false;
+        });
+
+        carouselContainer.addEventListener('mouseleave', () => {
+            isDragging = false;
+        });
+
+        // Touch события
+        carouselContainer.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+        });
+
+        carouselContainer.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+
+            const currentX = e.touches[0].clientX;
+            const diff = startX - currentX;
+
+            if (Math.abs(diff) > dragThreshold) {
+                if (diff > 0) {
+                    nextCard();
+                } else {
+                    prevCard();
+                }
+                isDragging = false;
+            }
+        });
+
+        carouselContainer.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+
+        // Сворачиваем все карточки при клике вне карусели
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.card') && !e.target.closest('.indicator') && !e.target.closest('nav')) {
+                collapseAllCards();
+            }
+        });
+
+        // Автопрокрутка
+        function startAutoRotate() {
+            // Не запускаем автопрокрутку, если карточка открыта
+            if (isCardExpanded) return;
+
+            // Очищаем предыдущий интервал
+            if (autoRotateInterval) {
+                clearInterval(autoRotateInterval);
+            }
+
+            autoRotateInterval = setInterval(nextCard, 4000);
+        }
+
+        function stopAutoRotate() {
+            if (autoRotateInterval) {
+                clearInterval(autoRotateInterval);
+                autoRotateInterval = null;
+            }
+        }
+
+        // Инициализация
+        positionCards();
+    });
+</script>
+      
+      <!--======================================-->
+
+
 
 
 
@@ -471,5 +1207,6 @@
 </html>
 -->
 </body>
+
 
 
