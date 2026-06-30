@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Я слушаю тебя... | Психиатрия, наркология, психотерапия, психиатрия-наркология</title>
+    <meta name="description" content="Частная практика врача-психиатра. Лечение зависимостей, деменции, аутизма, депрессии. Консультации, диагностика, сопровождение.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fafaf9;
+            --surface: #ffffff;
+            --text: #1c1917;
+            --text-secondary: #57534e;
+            --text-muted: #8c8884;
+            --primary: #1e6b6b;
+            --primary-light: #e8f4f4;
+            --primary-dark: #145252;
+            --accent: #c4956a;
+            --accent-light: #fdf3e9;
+            --border: #e7e5e4;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.12);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --carousel-transition: 0.5s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+            --nav-height: 70px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: var(--nav-height);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── NAVIGATION ─────────────────────── */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            height: var(--nav-height);
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+        .nav.scrolled {
+            box-shadow: var(--shadow);
+        }
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .nav-links {
+            display: flex;
+            gap: 6px;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        .nav-links a {
+            display: block;
+            padding: 8px 14px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+        .nav-burger {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            flex-direction: column;
+            gap: 5px;
+            z-index: 1001;
+        }
+        .nav-burger span {
+            display: block;
+            width: 26px;
+            height: 2.5px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+        .nav-burger.open span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .nav-burger.open span:nth-child(2) {
+            opacity: 0;
+        }
+        .nav-burger.open span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+        @media (max-width: 860px) {
+            .nav-burger {
+                display: flex;
+            }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: var(--surface);
+                flex-direction: column;
+                padding: 90px 24px 30px;
+                gap: 2px;
+                box-shadow: var(--shadow-lg);
+                transition: right 0.35s ease;
+                z-index: 1000;
+            }
+            .nav-links.open {
+                right: 0;
+            }
+            .nav-links a {
+                font-size: 1rem;
+                padding: 12px 16px;
+            }
+        }
+
+        /* ── SECTIONS ──────────────────────── */
+        .section {
+            padding: 80px 24px;
+        }
+        .section-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .section-label {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.6rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 800px;
+        }
+        @media (max-width: 600px) {
+            .section {
+                padding: 50px 16px;
+            }
+            .section-title {
+                font-size: 1.9rem;
+            }
+        }
+
+        /* ── HERO / ABOUT ──────────────────── */
+        #about {
+            padding-top: 40px;
+            background: linear-gradient(175deg, #f6fbfb 0%, #fafaf9 30%, #ffffff 100%);
+        }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+        .about-photo {
+            width: 100%;
+            max-width: 380px;
+            aspect-ratio: 1/1;
+            border-radius: 50%;
+            object-fit: cover;
+            background: linear-gradient(135deg, #d4eae8, #e8f4f4);
+            box-shadow: var(--shadow-lg);
+            justify-self: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            color: var(--primary);
+        }
+        .about-text h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .about-text .specialty {
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 18px;
+        }
+        .about-text p {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            max-width: 480px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 4px 18px rgba(30, 107, 107, 0.3);
+        }
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(30, 107, 107, 0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            margin-left: 12px;
+        }
+        .btn-outline:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+        }
+        .about-buttons {
+            margin-top: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                text-align: center;
+            }
+            .about-photo {
+                max-width: 250px;
+                font-size: 4rem;
+            }
+            .about-text p {
+                max-width: 100%;
+            }
+            .about-buttons {
+                justify-content: center;
+            }
+            .about-text h1 {
+                font-size: 2rem;
+            }
+        }
+
+        /* ── EDUCATION ─────────────────────── */
+        #education {
+            background: var(--surface);
+        }
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+            border-left: 3px solid var(--primary-light);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 32px;
+            padding-left: 28px;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -39px;
+            top: 4px;
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 50%;
+            border: 3px solid #fff;
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+        .timeline-year {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 0.04em;
+        }
+        .timeline-title {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text);
+        }
+        .timeline-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* ── ACHIEVEMENTS ──────────────────── */
+        #achievements {
+            background: var(--bg);
+        }
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .achievement-card {
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+            transition: var(--transition);
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+        }
+        .achievement-card:hover {
+            box-shadow: var(--shadow);
+            transform: translateY(-2px);
+        }
+        .achievement-icon {
+            font-size: 2rem;
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .achievement-card h4 {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text);
+        }
+        .achievement-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* ── PRICES ────────────────────────── */
+        #prices {
+            background: var(--surface);
+        }
+        .prices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 20px;
+        }
+        .price-card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 28px 22px;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+        }
+        .price-card:hover {
+            box-shadow: var(--shadow);
+            border-color: var(--primary-light);
+            transform: translateY(-3px);
+        }
+        .price-card.featured {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px var(--primary-light);
+        }
+        .price-card.featured::before {
+            content: 'Популярное';
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary);
+            color: #fff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 5px 16px;
+            border-radius: 20px;
+            letter-spacing: 0.04em;
+        }
+        .price-name {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--text);
+        }
+        .price-amount {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 6px;
+        }
+        .price-duration {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+        .price-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* ── ARTICLES CAROUSEL ─────────────── */
+        #articles {
+            background: var(--bg);
+            overflow: hidden;
+            padding-bottom: 100px;
+        }
+        .carousel-wrapper {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .carousel-3d {
+            position: relative;
+            height: 520px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+        }
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .carousel-card {
+            position: absolute;
+            width: 320px;
+            max-width: 80vw;
+            background: #fff;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            cursor: pointer;
+            transition: var(--carousel-transition);
+            will-change: transform, opacity, z-index;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .carousel-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+            background: #e8f4f4;
+        }
+        .carousel-card .card-img-placeholder {
+            width: 100%;
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            background: linear-gradient(135deg, #e0f0ef, #c8e4e2, #dceef0);
+            color: var(--primary);
+        }
+        .carousel-card .card-body {
+            padding: 16px 18px;
+            transition: var(--transition);
+        }
+        .carousel-card .card-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text);
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+        .carousel-card .card-preview {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            max-height: 60px;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+        .carousel-card.expanded .card-preview {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .carousel-card .card-expand-hint {
+            font-size: 0.75rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-top: 6px;
+            display: inline-block;
+            transition: var(--transition);
+        }
+        .carousel-card.expanded .card-expand-hint {
+            opacity: 0.6;
+        }
+        .carousel-card .card-date {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        /* Card states */
+        .carousel-card.state-active {
+            z-index: 100;
+            opacity: 1;
+            cursor: pointer;
+        }
+        .carousel-card.state-prev {
+            z-index: 50;
+            opacity: 0.75;
+            cursor: pointer;
+        }
+        .carousel-card.state-next {
+            z-index: 50;
+            opacity: 0.75;
+            cursor: pointer;
+        }
+        .carousel-card.state-far {
+            z-index: 10;
+            opacity: 0.25;
+            pointer-events: none;
+        }
+        /* Navigation */
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .carousel-nav button {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            background: #fff;
+            color: var(--primary);
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .carousel-nav button:hover {
+            background: var(--primary);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(30, 107, 107, 0.3);
+        }
+        .carousel-nav button:active {
+            transform: scale(0.93);
+        }
+        .indicators {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #d4d4d4;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .indicator.active {
+            background: var(--primary);
+            width: 28px;
+            border-radius: 20px;
+        }
+        @media (max-width: 700px) {
+            .carousel-3d {
+                height: 440px;
+            }
+            .carousel-card {
+                width: 260px;
+                max-width: 75vw;
+            }
+            .carousel-card img,
+            .carousel-card .card-img-placeholder {
+                height: 140px;
+            }
+            .carousel-card .card-body {
+                padding: 12px 14px;
+            }
+            .carousel-card .card-title {
+                font-size: 0.9rem;
+            }
+            .carousel-card .card-preview {
+                font-size: 0.78rem;
+                max-height: 45px;
+            }
+            .carousel-card.expanded .card-preview {
+                max-height: 350px;
+            }
+        }
+        @media (max-width: 400px) {
+            .carousel-3d {
+                height: 380px;
+            }
+            .carousel-card {
+                width: 220px;
+                max-width: 70vw;
+            }
+            .carousel-card img,
+            .carousel-card .card-img-placeholder {
+                height: 110px;
+            }
+        }
+
+        /* ── CONTACTS ──────────────────────── */
+        #contacts {
+            background: var(--surface);
+        }
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+        .contact-info-item {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            margin-bottom: 22px;
+        }
+        .contact-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+        .contact-info-item h4 {
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 2px;
+        }
+        .contact-info-item p,
+        .contact-info-item a {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        .contact-info-item a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+        .contact-form {
+            background: #f9fafb;
+            border-radius: var(--radius);
+            padding: 28px;
+            border: 1px solid var(--border);
+        }
+        .contact-form h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            margin-bottom: 18px;
+            font-size: 1.3rem;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            transition: var(--transition);
+            background: #fff;
+            resize: vertical;
+        }
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+        .contact-form button {
+            width: 100%;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: 600;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .contact-form button:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 6px 20px rgba(30, 107, 107, 0.35);
+        }
+        @media (max-width: 768px) {
+            .contacts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── FOOTER ────────────────────────── */
+        .footer {
+            text-align: center;
+            padding: 30px 24px;
+            background: #f5f4f2;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+        }
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ── OVERLAY (mobile menu backdrop) ── */
+        .overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            z-index: 999;
+        }
+        .overlay.show {
+            display: block;
+        }
+
+        /* ── ANIMATIONS ────────────────────── */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .section-inner>* {
+            animation: fadeInUp 0.7s ease forwards;
+        }
+        .section-inner>*:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+        .section-inner>*:nth-child(2) {
+            animation-delay: 0.12s;
+        }
+        .section-inner>*:nth-child(3) {
+            animation-delay: 0.19s;
+        }
+        .section-inner>*:nth-child(4) {
+            animation-delay: 0.26s;
+        }
+        .section-inner>*:nth-child(5) {
+            animation-delay: 0.33s;
+        }
+		
+		
+		
+		
+		
+		
+		
+		
+		/* ── CONDITIONS (болезни) ─────────────── */
+/* ── CONDITIONS (новая широкая компоновка) ── */
+#conditions {
+    background: var(--surface);
+    padding-left: 12px;    /* маленькие отступы */
+    padding-right: 12px;
+}
+.conditions-wide {
+    max-width: 1300px;      /* шире стандартного */
+}
+.conditions-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;          /* ← меняем stretch на start */
+}
+.conditions-subgrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;    /* ← было 1fr 1fr */
+    gap: 20px;
+}
+.condition-card--large {
+    /* займёт всю высоту своей колонки автоматически */
+}
+
+/* Карточка внутри подсетки */
+.conditions-subgrid .condition-card {
+    height: 100%;
+}
+
+/* Общие стили карточек (остаются как были, немного увеличу шрифт) */
+.condition-card {
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 24px 20px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+}
+.condition-card:hover {
+    box-shadow: var(--shadow);
+    transform: translateY(-2px);
+    border-color: var(--primary-light);
+}
+.condition-card h4 {
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin-bottom: 14px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.condition-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+}
+.condition-card li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+.condition-card li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+/* Адаптив: на мобильных всё в столбик */
+@media (max-width: 768px) {
+    .conditions-layout {
+        grid-template-columns: 1fr;
+    }
+    .conditions-subgrid {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+    }
+    #conditions {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}
+    </style>
+</head>
+<body>
+
+    <!-- ============ НАВИГАЦИЯ ============ -->
+    <nav class="nav" id="navbar">
+        <div class="nav-inner">
+            <a href="#about" class="nav-logo">🩺 Я слушаю тебя... </a>
+            <button class="nav-burger" id="navBurger" aria-label="Меню">
+                <span></span><span></span><span></span>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#about">Обо мне</a></li>
+                <li><a href="#education">Почему мне можно доверять?</a></li>
+                <li><a href="#achievements">Результаты</a></li>
+				<li><a href="#conditions">Услуги</a></li>
+                <li><a href="#prices">Цены</a></li>
+                <li><a href="#articles">Статьи</a></li>
+                <li><a href="#contacts">Контакты</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="overlay" id="overlay"></div>
+
+    <!-- ============ ОБО МНЕ ============ -->
+    <section class="section" id="about">
+        <div class="section-inner">
+            <div class="about-grid">
+                <div class="about-photo" aria-label="Фото врача"><img src="static/main_photo.jpg" alt="Фото врача" 
+                    style="width:100%; height:100%; object-fit:cover; border-radius:50%;"></div>
+                <div class="about-text">
+                    <span class="section-label">Психиатр, психиатр-нарколог, психотерапевт, кандидат медицинских наук по двум специальностям, консультант в сфере психологии</span>
+                    <h1>Dr.Елена Сергеевна</h1>
+                    <p class="specialty">Психиатрия • Наркология • Психотерапия • Психиатрия-наркология</p>
+                    <p>
+                        Психиатр, психиатр-нарколог, психотерапевт, организатор здравоохранения. 
+                        Кандидат медицинских наук по специальностям психиатрия и биохимия
+                        Опыт работы более 24 лет в ведущих клиниках Москвы и зарубежных лечебных центрах
+                        Автор печатных работ в научных и научно-популярных журналах
+                    </p>
+                    <p>
+                        Веду частный приём, консультирую онлайн и очно. Сопровождаю пациентов
+                        на всех этапах: от диагностики до полной ремиссии.
+                    </p>
+                    <div class="about-buttons">
+                        <a href="#contacts" class="btn btn-primary">📞 Записаться на приём</a>
+                        <a href="#articles" class="btn btn-outline">📚 Читать статьи</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ ОБРАЗОВАНИЕ ============ -->
+    <section class="section" id="education">
+        <div class="section-inner">
+            <span class="section-label">Почему мне можно доверять?</span>
+            <h2 class="section-title">Образование</h2>
+            <p class="section-subtitle">Академическая подготовка и ключевые этапы профессионального пути.</p>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">Специальность «Психиатрия»</div>
+                    <div class="timeline-title">Повышение квалификации по специальности «Психиатрия», Российский национальный исследовательский медицинский университет им.Н.И.Пирогова, Москва, 2001г</div>
+                    <div class="timeline-title">Защита кандидатской диссертации, НИИ психиатрии, г.Москва, 2007г</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">Специальность «Психотерапия»</div>
+                    <div class="timeline-title">Повышение квалификации по специальности «Психотерапия» Российский национальный исследовательский медицинский университет им.Н.И.Пирогова, Москва, 2002г</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">Специальность «Психиатрия-наркология»</div>
+                    <div class="timeline-title">Повышение квалификации по специальности «Психиатрия-наркология» Российский национальный исследовательский медицинский университет им.Н.И.Пирогова, Москва, 2003г</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">Специальность «Общественное здоровье и организация здравоохранения»</div>
+                    <div class="timeline-title">ЦНИИ организации и информатизации здравоохранения, г.2008г</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ УСПЕХИ ============ -->
+    <section class="section" id="achievements">
+        <div class="section-inner">
+            <span class="section-label">А где гарантии?</span>
+            <h2 class="section-title">Успехи и признание</h2>
+            <p class="section-subtitle">Профессиональные вехи, которыми я горжусь.</p>
+            <div class="achievements-grid">
+                <div class="achievement-card">
+                    <div class="achievement-icon">🏆</div>
+                    <div>
+                        <h4>Лучший врач года — 2019</h4>
+                        <p>Премия регионального Минздрава за вклад в развитие психиатрической помощи.</p>
+                    </div>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">📄</div>
+                    <div>
+                        <h4>12 научных публикаций</h4>
+                        <p>Статьи в рецензируемых журналах по проблемам зависимости и деменции.</p>
+                    </div>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">🎤</div>
+                    <div>
+                        <h4>Спикер конференций</h4>
+                        <p>Выступления на всероссийских форумах по психиатрии и наркологии.</p>
+                    </div>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">👥</div>
+                    <div>
+                        <h4>5009+ пациентов</h4>
+                        <p>Пациентов прошло лечение</p>
+                    </div>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">🎯</div>
+                    <div>
+                        <h4>81%</h4>
+                        <p>Пациентов перешли в ремиссию</p>
+                    </div>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">📱</div>
+                    <div>
+                        <h4>Авторский Telegram-канал</h4>
+                        <p>Просветительский проект для пациентов и коллег — @ya_slushayu_tebya.</p>
+                    </div>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">🤝</div>
+                    <div>
+                        <h4>Член ассоциации психиатров</h4>
+                        <p>Активное участие в профессиональном сообществе с 2012 года.</p>
+                    </div>
+                </div>
+                <div class="achievement-card">
+                    <div class="achievement-icon">✨</div>
+                    <div>
+                        <h4>86%</h4>
+                        <p>Первичных пациентов пришли по рекомендации</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+	<!-- -->
+	<!-- ============ ЗАБОЛЕВАНИЯ ============ -->
+<!-- ============ ЗАБОЛЕВАНИЯ ============ -->
+<section class="section" id="conditions">
+    <div class="section-inner conditions-wide">
+        <span class="section-label">Специализация</span>
+        <h2 class="section-title">С какими состояниями я работаю</h2>
+        <p class="section-subtitle">Основные группы заболеваний, при которых я могу помочь.</p>
+
+        <div class="conditions-layout">
+            <!-- Большой блок 1 -->
+            <div class="condition-card condition-card--large">
+                <h4>🧠 Психические расстройства</h4>
+                <ul>
+                    <li>Панические атаки</li>
+                    <li>Шизофрения</li>
+                    <li>Психосоматические, соматоформные расстройства, тревожные расстройства</li>
+                    <li>Созависимые отношения</li>
+                    <li>Генерализованное тревожное расстройство</li>
+                    <li>Биполярное расстройство</li>
+                    <li>ПТСР (посттравматическое стрессовое расстройство)</li>
+                    <li>Синдром хронической усталости</li>
+                    <li>Тревожно-депрессивные расстройства</li>
+                    <li>Пищевые нарушения</li>
+                    <li>Навязчивые состояния</li>
+                    <li>Психические расстройства позднего возраста, в том числе деменция</li>
+                    <li>Расстройства сна</li>
+                    <li>Задержка психического и речевого развития у детей</li>
+                    <li>Поведенчиские и эмоциональные нарушения у детей</li>
+                    <li>Аутизм</li>
+                    </ul>
+            </div>
+
+            <!-- Сетка 2×2 из четырёх блоков -->
+            <div class="conditions-subgrid">
+                <div class="condition-card">
+                    <h4>🍷 Психиатрия-наркология</h4>
+                    <ul>
+                        <li>Проблемы зависимости (химическими и нехимическими)</li>
+                        <li>Зависимость от алкоголя и наркотиков</li>
+                        <li>Игровая зависимость</li>
+                        <li>Интернет и компьютерная зависимость</li>
+                        <li>Никотиновая зависимость</li>
+                        <li>Трудоголизм</li>
+                        <li>Общая склонность к зависимостям</li>
+                        </ul>
+                </div>
+                <div class="condition-card">
+                    <h4>🧩 Психотерапия</h4>
+                    <ul>
+                        <li>Когнитивно-поведенческая терапия</li>
+                        <li>Психоанализ</li>
+                        <li>Личностно-ориентированная (реконструктивная) психотерапия</li>
+                        <li>Биосуггестивная терапия</li>
+                        <li>EMDR-терапия (десенсибилизация и переработка движением глаз)</li>
+                        <li>Индивидуальная психотерапевтическая работа по собственным методикам</li>
+                    </ul>
+                </div>
+                <div class="condition-card">
+                    <h4>🔄 Реабилитация</h4>
+                    <ul>
+                        <li>Реабилитация и социализация пациента и его близких</li>
+                        <li>Работаю с ведущими реабилитационными центрами России и зарубежными</li>
+                    </ul>
+                </div>
+                <div class="condition-card">
+                    <h4>💬 Парное консультирование с психологом</h4>
+                    <ul>
+                        <li>Комплексный подход к одной проблеме</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+	<!-- -->
+
+    <!-- ============ ЦЕНЫ ============ -->
+    <section class="section" id="prices">
+        <div class="section-inner">
+            <span class="section-label">Стоимость</span>
+            <h2 class="section-title">Цены на услуги</h2>
+            <p class="section-subtitle">Актуальные цены на консультации. Свяжитесь со мной для уточнения деталей.</p>
+            <div class="prices-grid">
+                <div class="price-card">
+                    <div class="price-name">Очная и онлайн консультация</div>
+                    <div class="price-amount">10 000 ₽</div>
+                    <div class="price-duration">60 минут</div>
+                    <div class="price-desc">Видеозвонок в удобном мессенджере. Диагностика, сбор анамнеза, предварительный план лечения.</div>
+                </div>
+                
+                <div class="price-card">
+                    <div class="price-name">Cовместная консультация с психологом</div>
+                    <div class="price-amount">16 000 ₽</div>
+                    <div class="price-duration">90 минут</div>
+                    <div class="price-desc">Работа с семьёй зависимого или пациента с деменцией.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ СТАТЬИ (3D КАРУСЕЛЬ) ============ -->
+    <section class="section" id="articles">
+        <div class="section-inner">
+            <span class="section-label">Полезные материалы</span>
+            <h2 class="section-title">Статьи</h2>
+            <p class="section-subtitle">
+                Мои публикации из Telegram-канала. Нажмите на карточку, чтобы прочитать полностью.
+            </p>
+        </div>
+        <div class="carousel-wrapper">
+            <div class="carousel-3d" data-gap="20">
+                <div class="carousel-container" id="carouselContainer">
+                    <!-- Карточки генерируются JavaScript -->
+                </div>
+            </div>
+            <div class="carousel-nav">
+                <button class="carousel-prev" id="carouselPrev" aria-label="Назад">◀</button>
+                <div class="indicators" id="indicators"></div>
+                <button class="carousel-next" id="carouselNext" aria-label="Вперёд">▶</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ КОНТАКТЫ ============ -->
+    <section class="section" id="contacts">
+        <div class="section-inner">
+            <span class="section-label">Как меня найти?</span>
+            <h2 class="section-title">Контакты</h2>
+            <p class="section-subtitle">Запишитесь на приём или задайте вопрос. Я отвечу в ближайшее время.</p>
+            <div class="contacts-grid">
+                <div>
+                    
+                    <div class="contact-info-item">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <h4>Телефон</h4>
+                            <p><a href="tel:+79252821277">+7 (925) 282-12-77</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <div class="contact-icon">🟢</div>
+                        <div>
+                            <h4>WhatsApp</h4>
+                            <p><a href="https://wa.me/79252821277">WhatsApp</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <div class="contact-icon">✈️</div>
+                        <div>
+                            <h4>Мой Telegram</h4>
+                            <p><a href="https://telegram.me/DrHelenS">Telegram</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-info-item">
+                        <div class="contact-icon">📱</div>
+                        <div>
+                            <h4>Telegram-канал</h4>
+                            <p><a href="https://t.me/ya_slushayu_tebya" target="_blank" rel="noopener">@ya_slushayu_tebya</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <p>© <span id="currentYear"></span>Все права защищены.</p>
+        <p><a href="https://t.me/ya_slushayu_tebya" target="_blank" rel="noopener">Telegram-канал</a> • <a href="#contacts">Контакты</a></p>
+    </footer>
+
+    <script>
+		// ===== 1. DOM-элементы (объявляем сразу, пока DOM готов) =====
+const carouselContainer = document.getElementById('carouselContainer');
+const indicatorsContainer = document.getElementById('indicators');
+const prevBtn = document.getElementById('carouselPrev');
+const nextBtn = document.getElementById('carouselNext');
+
+// ===== 2. Глобальные переменные =====
+let articlesData = [];          // загруженные статьи
+let cards = [];                 // DOM-карточки карусели
+let currentIndex = 0;           // текущий активный индекс
+
+// ===== 3. Функции карусели =====
+function updateContainerHeight() {
+    const activeCard = cards[currentIndex];
+    if (!activeCard) return;
+    const carousel3d = document.querySelector('.carousel-3d');
+    if (!carousel3d) return;
+
+    requestAnimationFrame(() => {
+        const cardHeight = activeCard.offsetHeight;
+        const scaleActive = 1.12; // базовое значение, можно менять адаптивно
+        const scaledHeight = cardHeight * scaleActive;
+        const minHeight = 380;
+        const newHeight = Math.max(minHeight, scaledHeight + 80);
+        carousel3d.style.height = newHeight + 'px';
+    });
+}
+
+function updateCarousel() {
+    const total = cards.length;
+    if (total === 0) return;
+
+    const width = window.innerWidth;
+    let offset = 170;
+    let scaleFar = 0.7;
+    let scaleSide = 0.85;
+    let scaleActive = 1.12;
+    if (width <= 700) {
+        offset = 120;
+        scaleFar = 0.65;
+        scaleSide = 0.8;
+        scaleActive = 1.08;
+    }
+    if (width <= 400) {
+        offset = 75;
+        scaleFar = 0.55;
+        scaleSide = 0.72;
+        scaleActive = 1.05;
+    }
+
+    cards.forEach((card, i) => {
+        const distance = i - currentIndex;
+        card.classList.remove('state-active', 'state-prev', 'state-next', 'state-far');
+
+        if (distance === 0) {
+            card.classList.add('state-active');
+            card.style.transform = `translateX(0px) scale(${scaleActive})`;
+            card.style.zIndex = '100';
+            card.style.opacity = '1';
+            card.style.pointerEvents = 'auto';
+        } else if (distance === -1) {
+            card.classList.add('state-prev');
+            card.style.transform = `translateX(-${offset}px) scale(${scaleSide})`;
+            card.style.zIndex = '50';
+            card.style.opacity = '0.75';
+            card.style.pointerEvents = 'auto';
+        } else if (distance === 1) {
+            card.classList.add('state-next');
+            card.style.transform = `translateX(${offset}px) scale(${scaleSide})`;
+            card.style.zIndex = '50';
+            card.style.opacity = '0.75';
+            card.style.pointerEvents = 'auto';
+        } else {
+            card.classList.add('state-far');
+            card.style.transform = `translateX(0px) scale(${scaleFar})`;
+            card.style.zIndex = '10';
+            card.style.opacity = '0.2';
+            card.style.pointerEvents = 'none';
+        }
+    });
+
+    // Обновляем индикаторы
+    const indicators = indicatorsContainer.querySelectorAll('.indicator');
+    indicators.forEach((ind, i) => {
+        ind.classList.toggle('active', i === currentIndex);
+    });
+
+    updateContainerHeight();
+}
+
+function goToCard(index) {
+    // Сворачиваем предыдущую активную карточку
+    if (cards[currentIndex]) {
+        cards[currentIndex].classList.remove('expanded');
+        const hint = cards[currentIndex].querySelector('.card-expand-hint');
+        if (hint) hint.textContent = 'Нажмите, чтобы развернуть ▾';
+    }
+    currentIndex = index;
+    updateCarousel();
+}
+
+function createCarousel() {
+    carouselContainer.innerHTML = '';
+    indicatorsContainer.innerHTML = '';
+    cards = [];
+
+    articlesData.forEach((article, index) => {
+        // Карточка
+        const card = document.createElement('div');
+        card.className = 'carousel-card';
+        card.dataset.index = index;
+
+        const imgHTML = (article.image && !article.image.includes('logo.jpg'))
+            ? `<img src="${article.image}" alt="${article.title}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+               <div class="card-img-placeholder" style="display:none;">📄</div>`
+            : `<div class="card-img-placeholder">${article.link ? '📢' : '📄'}</div>`;
+
+        card.innerHTML = `
+            ${imgHTML}
+            <div class="card-body">
+                ${article.date ? `<div class="card-date">${article.date}</div>` : ''}
+                <div class="card-title">${article.title}</div>
+                <div class="card-preview">${article.fullText || article.preview}</div>
+                <span class="card-expand-hint">Нажмите, чтобы ${article.link ? 'перейти' : 'развернуть'} ▾</span>
+            </div>
+        `;
+
+        card.addEventListener('click', (e) => {
+            if (index === currentIndex) {
+				card.classList.toggle('expanded');
+				const hint = card.querySelector('.card-expand-hint');
+				if (card.classList.contains('expanded')) {
+					hint.textContent = 'Свернуть ▴';
+				} else {
+					hint.textContent = 'Нажмите, чтобы развернуть ▾';
+				}
+			updateContainerHeight();
+}
+        });
+
+        carouselContainer.appendChild(card);
+        cards.push(card);
+
+        // Индикатор
+        const indicator = document.createElement('div');
+        indicator.className = 'indicator';
+        indicator.dataset.index = index;
+        indicator.addEventListener('click', () => goToCard(index));
+        indicatorsContainer.appendChild(indicator);
+    });
+
+    updateCarousel();
+}
+
+// ===== 4. Навигация по кнопкам =====
+prevBtn.addEventListener('click', () => {
+    const newIndex = (currentIndex - 1 + cards.length) % cards.length;
+    goToCard(newIndex);
+});
+
+nextBtn.addEventListener('click', () => {
+    const newIndex = (currentIndex + 1) % cards.length;
+    goToCard(newIndex);
+});
+
+// ===== 5. Свайп и клавиатура =====
+let touchStartX = 0;
+carouselContainer.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+}, { passive: true });
+
+carouselContainer.addEventListener('touchend', (e) => {
+    const touchEndX = e.changedTouches[0].screenX;
+    const diff = touchStartX - touchEndX;
+    if (Math.abs(diff) > 50) {
+        if (diff > 0) {
+            const newIndex = (currentIndex + 1) % cards.length;
+            goToCard(newIndex);
+        } else {
+            const newIndex = (currentIndex - 1 + cards.length) % cards.length;
+            goToCard(newIndex);
+        }
+    }
+});
+
+document.addEventListener('keydown', (e) => {
+    const articlesSection = document.getElementById('articles');
+    if (!articlesSection) return;
+    const rect = articlesSection.getBoundingClientRect();
+    const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+    if (!isVisible) return;
+    if (e.key === 'ArrowLeft') {
+        const newIndex = (currentIndex - 1 + cards.length) % cards.length;
+        goToCard(newIndex);
+    } else if (e.key === 'ArrowRight') {
+        const newIndex = (currentIndex + 1) % cards.length;
+        goToCard(newIndex);
+    }
+});
+
+// ===== 6. Загрузка данных и инициализация =====
+fetch('articles.json')
+    .then(res => {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+    })
+    .then(data => {
+        console.log('✅ Статьи загружены:', data);
+        articlesData = data;
+        if (articlesData.length > 0) {
+            createCarousel();
+            currentIndex = Math.floor(articlesData.length / 2); // начнём с середины
+            updateCarousel();
+        } else {
+            console.warn('⚠️ Массив статей пуст');
+        }
+    })
+    .catch(err => {
+        console.error('❌ Ошибка загрузки статей:', err);
+    });
+
+// ===== 7. Адаптивная перестройка при изменении размера окна =====
+window.addEventListener('resize', () => {
+    if (cards.length > 0) {
+        updateCarousel();
+    }
+});
+    </script>
+</body>
+</html>
