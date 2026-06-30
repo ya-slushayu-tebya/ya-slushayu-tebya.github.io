@@ -1472,5 +1472,37 @@ window.addEventListener('resize', () => {
     }
 });
     </script>
+
+
+	<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const burger = document.getElementById('navBurger');
+    const navLinks = document.getElementById('navLinks');
+    const overlay = document.getElementById('overlay');
+
+    // Открыть/закрыть меню
+    function toggleMenu() {
+        burger.classList.toggle('open');
+        navLinks.classList.toggle('open');
+        overlay.classList.toggle('show');
+    }
+
+    // Закрыть меню
+    function closeMenu() {
+        burger.classList.remove('open');
+        navLinks.classList.remove('open');
+        overlay.classList.remove('show');
+    }
+
+    // Клик по бургеру – переключение
+    burger.addEventListener('click', toggleMenu);
+
+    // Клик по оверлею (тёмный фон) – закрытие
+    overlay.addEventListener('click', closeMenu);
+
+    // Клик по любой ссылке в меню – закрытие
+    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+});
+</script>
 </body>
 </html>
