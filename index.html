@@ -1321,8 +1321,6 @@
         });
 
         // ===== 5. Свайп и клавиатура =====
-        let touchStartX = 0;
-let touchStartY = 0;
 carouselContainer.addEventListener('touchstart', (e) => {
     touchStartX = e.changedTouches[0].screenX;
     touchStartY = e.changedTouches[0].screenY;
@@ -1367,7 +1365,6 @@ carouselContainer.addEventListener('touchend', (e) => {
             .catch(err => {
                 console.error('❌ Ошибка загрузки статей:', err);
             });
-});
     </script>
 
     <script>
