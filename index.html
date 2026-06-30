@@ -911,6 +911,18 @@
                 padding-right: 8px;
             }
         }
+
+
+    @media (max-width: 700px) {
+    .carousel-card.expanded .card-preview {
+        max-height: 150px;   /* было 200px, уменьшим для надёжности */
+    }
+}
+@media (max-width: 400px) {
+    .carousel-card.expanded .card-preview {
+        max-height: 120px;
+    }
+}
     </style>
 </head>
 <body>
@@ -1310,36 +1322,30 @@
 
         // ===== 5. Свайп и клавиатура =====
         let touchStartX = 0;
-        carouselContainer.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-        carouselContainer.addEventListener('touchend', (e) => {
-            const touchEndX = e.changedTouches[0].screenX;
-            const diff = touchStartX - touchEndX;
-            if (Math.abs(diff) > 50) {
-                if (diff > 0) {
-                    const newIndex = (currentIndex + 1) % cards.length;
-                    goToCard(newIndex);
-                } else {
-                    const newIndex = (currentIndex - 1 + cards.length) % cards.length;
-                    goToCard(newIndex);
-                }
-            }
-        });
-        document.addEventListener('keydown', (e) => {
-            const articlesSection = document.getElementById('articles');
-            if (!articlesSection) return;
-            const rect = articlesSection.getBoundingClientRect();
-            const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
-            if (!isVisible) return;
-            if (e.key === 'ArrowLeft') {
-                const newIndex = (currentIndex - 1 + cards.length) % cards.length;
-                goToCard(newIndex);
-            } else if (e.key === 'ArrowRight') {
-                const newIndex = (currentIndex + 1) % cards.length;
-                goToCard(newIndex);
-            }
-        });
+let touchStartY = 0;
+carouselContainer.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+}, { passive: false });
+
+carouselContainer.addEventListener('touchend', (e) => {
+    const touchEndX = e.changedTouches[0].screenX;
+    const touchEndY = e.changedTouches[0].screenY;
+    const diffX = touchStartX - touchEndX;
+    const diffY = touchStartY - touchEndY;
+
+    // Если горизонтальное движение больше вертикального – считаем свайпом
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+        e.preventDefault(); // блокируем скролл страницы
+        if (diffX > 0) {
+            const newIndex = (currentIndex + 1) % cards.length;
+            goToCard(newIndex);
+        } else {
+            const newIndex = (currentIndex - 1 + cards.length) % cards.length;
+            goToCard(newIndex);
+        }
+    }
+}, { passive: false });
 
         // ===== 6. Загрузка данных =====
         fetch('articles.json')
@@ -1361,13 +1367,7 @@
             .catch(err => {
                 console.error('❌ Ошибка загрузки статей:', err);
             });
-
-        // ===== 7. Ресайз =====
-        window.addEventListener('resize', () => {
-            if (cards.length > 0) {
-                updateCarousel();
-            }
-        });
+});
     </script>
 
     <script>
