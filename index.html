@@ -27,7 +27,7 @@
             --radius: 16px;
             --radius-sm: 10px;
             --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --carousel-transition: 0.5s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+            --carousel-transition: 0.5s ease;
             --nav-height: 70px;
         }
 
@@ -49,8 +49,9 @@
             line-height: 1.7;
             -webkit-font-smoothing: antialiased;
         }
+
         html, body {
-            overflow-x: hidden;   /* Предотвращает горизонтальный скролл */
+            overflow-x: hidden;
         }
 
         /* ── NAVIGATION ────────────────────────── */
@@ -150,7 +151,7 @@
                 width: 280px;
                 max-width: 90vw;
                 height: 100dvh;
-                height: 100vh;                /* fallback */
+                height: 100vh;
                 background: var(--surface);
                 flex-direction: column;
                 padding: 80px 20px 30px;
@@ -204,6 +205,7 @@
             margin-bottom: 40px;
             max-width: 800px;
         }
+
         @media (max-width: 600px) {
             .section {
                 padding: 50px 16px;
@@ -297,6 +299,7 @@
             flex-wrap: wrap;
             gap: 10px;
         }
+
         @media (max-width: 768px) {
             .about-grid {
                 grid-template-columns: 1fr;
@@ -488,7 +491,7 @@
             align-items: center;
             justify-content: center;
             perspective: 1000px;
-            overflow: hidden;   /* ← добавлено */
+            overflow: hidden;
         }
         .carousel-container {
             position: relative;
@@ -497,7 +500,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            touch-action: pan-y;  /* ← улучшает свайпы */
+            touch-action: pan-y;
+            overflow: visible;
         }
         .carousel-card {
             position: absolute;
@@ -509,9 +513,10 @@
             overflow: hidden;
             cursor: pointer;
             transition: var(--carousel-transition);
-            will-change: transform;   /* только transform, без opacity и z-index */
             user-select: none;
             -webkit-tap-highlight-color: transparent;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
         }
         .carousel-card img {
             width: 100%;
@@ -549,14 +554,13 @@
             overflow: hidden;
             transition: max-height 0.4s ease;
         }
-        /* карточка развёрнута */
         .carousel-card.expanded {
-            max-height: 100%;          /* не выше контейнера */
+            max-height: 100%;
             overflow: hidden;
         }
         .carousel-card.expanded .card-preview {
-            max-height: 300px;         /* достаточно для чтения */
-            overflow-y: auto;          /* внутренний скролл */
+            max-height: 300px;
+            overflow-y: auto;
         }
         .carousel-card .card-expand-hint {
             font-size: 0.75rem;
@@ -574,27 +578,29 @@
             color: var(--text-muted);
             margin-bottom: 4px;
         }
+
         /* Card states */
         .carousel-card.state-active {
             z-index: 100;
             opacity: 1;
-            cursor: pointer;
+            pointer-events: auto;
         }
         .carousel-card.state-prev {
             z-index: 50;
             opacity: 0.75;
-            cursor: pointer;
+            pointer-events: auto;
         }
         .carousel-card.state-next {
             z-index: 50;
             opacity: 0.75;
-            cursor: pointer;
+            pointer-events: auto;
         }
         .carousel-card.state-far {
             z-index: 10;
             opacity: 0.25;
             pointer-events: none;
         }
+
         /* Navigation */
         .carousel-nav {
             display: flex;
@@ -603,6 +609,8 @@
             margin-top: 20px;
             flex-wrap: wrap;
             align-items: center;
+            position: relative;
+            z-index: 20;
         }
         .carousel-nav button {
             width: 48px;
@@ -631,6 +639,8 @@
             gap: 6px;
             flex-wrap: wrap;
             justify-content: center;
+            position: relative;
+            z-index: 20;
         }
         .indicator {
             width: 10px;
@@ -669,7 +679,7 @@
                 max-height: 45px;
             }
             .carousel-card.expanded .card-preview {
-                max-height: 200px;   /* меньше на мобильных */
+                max-height: 150px;
             }
         }
         @media (max-width: 400px) {
@@ -683,6 +693,9 @@
             .carousel-card img,
             .carousel-card .card-img-placeholder {
                 height: 110px;
+            }
+            .carousel-card.expanded .card-preview {
+                max-height: 120px;
             }
         }
 
@@ -775,6 +788,7 @@
             background: var(--primary-dark);
             box-shadow: 0 6px 20px rgba(30, 107, 107, 0.35);
         }
+
         @media (max-width: 768px) {
             .contacts-grid {
                 grid-template-columns: 1fr;
@@ -798,7 +812,7 @@
             text-decoration: underline;
         }
 
-        /* ── OVERLAY (mobile menu backdrop) ── */
+        /* ── OVERLAY ── */
         .overlay {
             display: none;
             position: fixed;
@@ -847,7 +861,6 @@
             grid-template-rows: auto;
             gap: 20px;
         }
-        .condition-card--large { }
         .conditions-subgrid .condition-card {
             height: 100%;
         }
@@ -898,6 +911,7 @@
             font-size: 1.2rem;
             line-height: 1;
         }
+
         @media (max-width: 768px) {
             .conditions-layout {
                 grid-template-columns: 1fr;
@@ -911,18 +925,6 @@
                 padding-right: 8px;
             }
         }
-
-
-    @media (max-width: 700px) {
-    .carousel-card.expanded .card-preview {
-        max-height: 150px;   /* было 200px, уменьшим для надёжности */
-    }
-}
-@media (max-width: 400px) {
-    .carousel-card.expanded .card-preview {
-        max-height: 120px;
-    }
-}
     </style>
 </head>
 <body>
@@ -1187,7 +1189,6 @@
         let currentIndex = 0;
 
         // ===== 3. Функции карусели =====
-
         function updateCarousel() {
             if (!cards.length || currentIndex < 0 || currentIndex >= cards.length) return;
 
@@ -1213,31 +1214,41 @@
                 const distance = i - currentIndex;
                 card.classList.remove('state-active', 'state-prev', 'state-next', 'state-far');
 
+                let transform = '';
+                let zIndex = 10;
+                let opacity = 0.25;
+                let pointerEvents = 'none';
+
                 if (distance === 0) {
                     card.classList.add('state-active');
-                    card.style.transform = `translateX(0px) scale(${scaleActive})`;
-                    card.style.zIndex = '100';
-                    card.style.opacity = '1';
-                    card.style.pointerEvents = 'auto';
+                    transform = `translateX(0px) scale(${scaleActive})`;
+                    zIndex = 100;
+                    opacity = 1;
+                    pointerEvents = 'auto';
                 } else if (distance === -1) {
                     card.classList.add('state-prev');
-                    card.style.transform = `translateX(-${offset}px) scale(${scaleSide})`;
-                    card.style.zIndex = '50';
-                    card.style.opacity = '0.75';
-                    card.style.pointerEvents = 'auto';
+                    transform = `translateX(-${offset}px) scale(${scaleSide})`;
+                    zIndex = 50;
+                    opacity = 0.75;
+                    pointerEvents = 'auto';
                 } else if (distance === 1) {
                     card.classList.add('state-next');
-                    card.style.transform = `translateX(${offset}px) scale(${scaleSide})`;
-                    card.style.zIndex = '50';
-                    card.style.opacity = '0.75';
-                    card.style.pointerEvents = 'auto';
+                    transform = `translateX(${offset}px) scale(${scaleSide})`;
+                    zIndex = 50;
+                    opacity = 0.75;
+                    pointerEvents = 'auto';
                 } else {
                     card.classList.add('state-far');
-                    card.style.transform = `translateX(0px) scale(${scaleFar})`;
-                    card.style.zIndex = '10';
-                    card.style.opacity = '0.2';
-                    card.style.pointerEvents = 'none';
+                    transform = `translateX(0px) scale(${scaleFar})`;
+                    zIndex = 10;
+                    opacity = 0.2;
+                    pointerEvents = 'none';
                 }
+
+                card.style.transform = transform;
+                card.style.zIndex = zIndex;
+                card.style.opacity = opacity;
+                card.style.pointerEvents = pointerEvents;
             });
 
             // Обновляем индикаторы
@@ -1249,7 +1260,6 @@
 
         function goToCard(index) {
             if (index < 0 || index >= cards.length) return;
-            // сворачиваем предыдущую активную
             if (cards[currentIndex]) {
                 cards[currentIndex].classList.remove('expanded');
                 const hint = cards[currentIndex].querySelector('.card-expand-hint');
@@ -1284,7 +1294,7 @@
                     </div>
                 `;
 
-                card.addEventListener('click', (e) => {
+                card.addEventListener('click', () => {
                     if (index === currentIndex) {
                         card.classList.toggle('expanded');
                         const hint = card.querySelector('.card-expand-hint');
@@ -1299,7 +1309,6 @@
                 carouselContainer.appendChild(card);
                 cards.push(card);
 
-                // Индикатор
                 const indicator = document.createElement('div');
                 indicator.className = 'indicator';
                 indicator.dataset.index = index;
@@ -1321,29 +1330,30 @@
         });
 
         // ===== 5. Свайп и клавиатура =====
-carouselContainer.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-    touchStartY = e.changedTouches[0].screenY;
-}, { passive: false });
+        let touchStartX = 0;
+        let touchStartY = 0;
+        carouselContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+            touchStartY = e.changedTouches[0].screenY;
+        }, { passive: false });
 
-carouselContainer.addEventListener('touchend', (e) => {
-    const touchEndX = e.changedTouches[0].screenX;
-    const touchEndY = e.changedTouches[0].screenY;
-    const diffX = touchStartX - touchEndX;
-    const diffY = touchStartY - touchEndY;
+        carouselContainer.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].screenX;
+            const touchEndY = e.changedTouches[0].screenY;
+            const diffX = touchStartX - touchEndX;
+            const diffY = touchStartY - touchEndY;
 
-    // Если горизонтальное движение больше вертикального – считаем свайпом
-    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-        e.preventDefault(); // блокируем скролл страницы
-        if (diffX > 0) {
-            const newIndex = (currentIndex + 1) % cards.length;
-            goToCard(newIndex);
-        } else {
-            const newIndex = (currentIndex - 1 + cards.length) % cards.length;
-            goToCard(newIndex);
-        }
-    }
-}, { passive: false });
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                e.preventDefault();
+                if (diffX > 0) {
+                    const newIndex = (currentIndex + 1) % cards.length;
+                    goToCard(newIndex);
+                } else {
+                    const newIndex = (currentIndex - 1 + cards.length) % cards.length;
+                    goToCard(newIndex);
+                }
+            }
+        }, { passive: false });
 
         // ===== 6. Загрузка данных =====
         fetch('articles.json')
