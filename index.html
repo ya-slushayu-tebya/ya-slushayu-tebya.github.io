@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
-	<style>
+    <style>
         :root {
             --bg: #fafaf9;
             --surface: #ffffff;
@@ -49,9 +49,9 @@
             line-height: 1.7;
             -webkit-font-smoothing: antialiased;
         }
-		html, body {
-    		overflow-x: hidden;   /* Предотвращает горизонтальный скролл */
-		}
+        html, body {
+            overflow-x: hidden;   /* Предотвращает горизонтальный скролл */
+        }
 
         /* ── NAVIGATION ────────────────────────── */
         .nav {
@@ -118,7 +118,7 @@
             padding: 8px;
             flex-direction: column;
             gap: 5px;
-			position: relative;
+            position: relative;
             z-index: 1100;
         }
         .nav-burger span {
@@ -138,44 +138,41 @@
         .nav-burger.open span:nth-child(3) {
             transform: rotate(-45deg) translate(5px, -5px);
         }
+
         @media (max-width: 860px) {
-    .nav-burger {
-        display: flex;
-    }
+            .nav-burger {
+                display: flex;
+            }
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 280px;
+                max-width: 90vw;
+                height: 100dvh;
+                height: 100vh;                /* fallback */
+                background: var(--surface);
+                flex-direction: column;
+                padding: 80px 20px 30px;
+                gap: 2px;
+                box-shadow: var(--shadow-lg);
+                z-index: 1000;
+                overflow-y: auto;
+                box-sizing: border-box;
+                transform: translateX(100%);
+                visibility: hidden;
+                transition: transform 0.35s ease, visibility 0.35s ease;
+            }
+            .nav-links.open {
+                transform: translateX(0);
+                visibility: visible;
+            }
+            .nav-links a {
+                font-size: 1rem;
+                padding: 12px 16px;
+            }
+        }
 
-    .nav-links {
-        position: fixed;
-        top: 0;
-        right: 0;                     /* всегда у правого края */
-        width: 280px;
-        max-width: 90vw;
-        height: 100dvh;
-        height: 100vh;                /* fallback */
-        background: var(--surface);
-        flex-direction: column;
-        padding: 80px 20px 30px;
-        gap: 2px;
-        box-shadow: var(--shadow-lg);
-        z-index: 1000;
-        overflow-y: auto;
-        box-sizing: border-box;
-
-        /* Исчезаем за правый край экрана */
-        transform: translateX(100%);
-        visibility: hidden;
-        transition: transform 0.35s ease, visibility 0.35s ease;
-    }
-
-    .nav-links.open {
-        transform: translateX(0);
-        visibility: visible;
-    }
-
-    .nav-links a {
-        font-size: 1rem;
-        padding: 12px 16px;
-    }
-}
         /* ── SECTIONS ──────────────────────── */
         .section {
             padding: 80px 24px;
@@ -491,6 +488,7 @@
             align-items: center;
             justify-content: center;
             perspective: 1000px;
+            overflow: hidden;   /* ← добавлено */
         }
         .carousel-container {
             position: relative;
@@ -499,6 +497,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            touch-action: pan-y;  /* ← улучшает свайпы */
         }
         .carousel-card {
             position: absolute;
@@ -510,7 +509,7 @@
             overflow: hidden;
             cursor: pointer;
             transition: var(--carousel-transition);
-            will-change: transform, opacity, z-index;
+            will-change: transform;   /* только transform, без opacity и z-index */
             user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
@@ -550,9 +549,14 @@
             overflow: hidden;
             transition: max-height 0.4s ease;
         }
+        /* карточка развёрнута */
+        .carousel-card.expanded {
+            max-height: 100%;          /* не выше контейнера */
+            overflow: hidden;
+        }
         .carousel-card.expanded .card-preview {
-            max-height: 500px;
-            overflow-y: auto;
+            max-height: 300px;         /* достаточно для чтения */
+            overflow-y: auto;          /* внутренний скролл */
         }
         .carousel-card .card-expand-hint {
             font-size: 0.75rem;
@@ -641,6 +645,7 @@
             width: 28px;
             border-radius: 20px;
         }
+
         @media (max-width: 700px) {
             .carousel-3d {
                 height: 440px;
@@ -664,7 +669,7 @@
                 max-height: 45px;
             }
             .carousel-card.expanded .card-preview {
-                max-height: 350px;
+                max-height: 200px;   /* меньше на мобильных */
             }
         }
         @media (max-width: 400px) {
@@ -795,149 +800,117 @@
 
         /* ── OVERLAY (mobile menu backdrop) ── */
         .overlay {
-    		display: none;
-    		position: fixed;
-    		inset: 0;
-    		width: 100%;
-    		height: 100%;
-    		background: rgba(0, 0, 0, 0.35);
-    		z-index: 999;
-		}
+            display: none;
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.35);
+            z-index: 999;
+        }
         .overlay.show {
             display: block;
         }
 
         /* ── ANIMATIONS ────────────────────── */
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
         .section-inner>* {
             animation: fadeInUp 0.7s ease forwards;
         }
-        .section-inner>*:nth-child(1) {
-            animation-delay: 0.05s;
-        }
-        .section-inner>*:nth-child(2) {
-            animation-delay: 0.12s;
-        }
-        .section-inner>*:nth-child(3) {
-            animation-delay: 0.19s;
-        }
-        .section-inner>*:nth-child(4) {
-            animation-delay: 0.26s;
-        }
-        .section-inner>*:nth-child(5) {
-            animation-delay: 0.33s;
-        }
-		
-		
-		
-		
-		
-		
-		
-		
-		/* ── CONDITIONS (болезни) ─────────────── */
-/* ── CONDITIONS (новая широкая компоновка) ── */
-#conditions {
-    background: var(--surface);
-    padding-left: 12px;    /* маленькие отступы */
-    padding-right: 12px;
-}
-.conditions-wide {
-    max-width: 1300px;      /* шире стандартного */
-}
-.conditions-layout {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    align-items: start;          /* ← меняем stretch на start */
-}
-.conditions-subgrid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto;    /* ← было 1fr 1fr */
-    gap: 20px;
-}
-.condition-card--large {
-    /* займёт всю высоту своей колонки автоматически */
-}
+        .section-inner>*:nth-child(1) { animation-delay: 0.05s; }
+        .section-inner>*:nth-child(2) { animation-delay: 0.12s; }
+        .section-inner>*:nth-child(3) { animation-delay: 0.19s; }
+        .section-inner>*:nth-child(4) { animation-delay: 0.26s; }
+        .section-inner>*:nth-child(5) { animation-delay: 0.33s; }
 
-/* Карточка внутри подсетки */
-.conditions-subgrid .condition-card {
-    height: 100%;
-}
-
-/* Общие стили карточек (остаются как были, немного увеличу шрифт) */
-.condition-card {
-    background: #fff;
-    border-radius: var(--radius);
-    padding: 24px 20px;
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-sm);
-    transition: var(--transition);
-    display: flex;
-    flex-direction: column;
-}
-.condition-card:hover {
-    box-shadow: var(--shadow);
-    transform: translateY(-2px);
-    border-color: var(--primary-light);
-}
-.condition-card h4 {
-    font-weight: 700;
-    font-size: 1.15rem;
-    margin-bottom: 14px;
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-.condition-card ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    flex: 1;
-}
-.condition-card li {
-    position: relative;
-    padding-left: 20px;
-    margin-bottom: 8px;
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    line-height: 1.5;
-}
-.condition-card li::before {
-    content: '•';
-    position: absolute;
-    left: 0;
-    color: var(--primary);
-    font-weight: 700;
-    font-size: 1.2rem;
-    line-height: 1;
-}
-
-/* Адаптив: на мобильных всё в столбик */
-@media (max-width: 768px) {
-    .conditions-layout {
-        grid-template-columns: 1fr;
-    }
-    .conditions-subgrid {
-        grid-template-columns: 1fr;
-        grid-template-rows: auto;
-    }
-    #conditions {
-        padding-left: 8px;
-        padding-right: 8px;
-    }
-}
+        /* ── CONDITIONS ─────────────────────── */
+        #conditions {
+            background: var(--surface);
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+        .conditions-wide {
+            max-width: 1300px;
+        }
+        .conditions-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+        .conditions-subgrid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto;
+            gap: 20px;
+        }
+        .condition-card--large { }
+        .conditions-subgrid .condition-card {
+            height: 100%;
+        }
+        .condition-card {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 24px 20px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+        .condition-card:hover {
+            box-shadow: var(--shadow);
+            transform: translateY(-2px);
+            border-color: var(--primary-light);
+        }
+        .condition-card h4 {
+            font-weight: 700;
+            font-size: 1.15rem;
+            margin-bottom: 14px;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .condition-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex: 1;
+        }
+        .condition-card li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        .condition-card li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+        @media (max-width: 768px) {
+            .conditions-layout {
+                grid-template-columns: 1fr;
+            }
+            .conditions-subgrid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+            #conditions {
+                padding-left: 8px;
+                padding-right: 8px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -953,7 +926,7 @@
                 <li><a href="#about">Обо мне</a></li>
                 <li><a href="#education">Почему мне можно доверять?</a></li>
                 <li><a href="#achievements">Результаты</a></li>
-				<li><a href="#conditions">Услуги</a></li>
+                <li><a href="#conditions">Услуги</a></li>
                 <li><a href="#prices">Цены</a></li>
                 <li><a href="#articles">Статьи</a></li>
                 <li><a href="#contacts">Контакты</a></li>
@@ -966,8 +939,11 @@
     <section class="section" id="about">
         <div class="section-inner">
             <div class="about-grid">
-                <div class="about-photo" aria-label="Фото врача"><img src="static/main_photo.jpg" alt="Фото врача" 
-                    style="width:100%; height:100%; object-fit:cover; border-radius:50%;"></div>
+                <div class="about-photo" aria-label="Фото врача">
+                    <img src="static/main_photo.jpg" alt="Фото врача" 
+                         loading="lazy"
+                         style="width:100%; height:100%; object-fit:cover; border-radius:50%;">
+                </div>
                 <div class="about-text">
                     <span class="section-label">Психиатр, психиатр-нарколог, психотерапевт, кандидат медицинских наук по двум специальностям, консультант в сфере психологии</span>
                     <h1>Dr.Елена Сергеевна</h1>
@@ -1028,139 +1004,82 @@
             <div class="achievements-grid">
                 <div class="achievement-card">
                     <div class="achievement-icon">🏆</div>
-                    <div>
-                        <h4>Лучший врач года — 2019</h4>
-                        <p>Премия регионального Минздрава за вклад в развитие психиатрической помощи.</p>
-                    </div>
+                    <div><h4>Лучший врач года — 2019</h4><p>Премия регионального Минздрава за вклад в развитие психиатрической помощи.</p></div>
                 </div>
                 <div class="achievement-card">
                     <div class="achievement-icon">📄</div>
-                    <div>
-                        <h4>12 научных публикаций</h4>
-                        <p>Статьи в рецензируемых журналах по проблемам зависимости и деменции.</p>
-                    </div>
+                    <div><h4>12 научных публикаций</h4><p>Статьи в рецензируемых журналах по проблемам зависимости и деменции.</p></div>
                 </div>
                 <div class="achievement-card">
                     <div class="achievement-icon">🎤</div>
-                    <div>
-                        <h4>Спикер конференций</h4>
-                        <p>Выступления на всероссийских форумах по психиатрии и наркологии.</p>
-                    </div>
+                    <div><h4>Спикер конференций</h4><p>Выступления на всероссийских форумах по психиатрии и наркологии.</p></div>
                 </div>
                 <div class="achievement-card">
                     <div class="achievement-icon">👥</div>
-                    <div>
-                        <h4>5009+ пациентов</h4>
-                        <p>Пациентов прошло лечение</p>
-                    </div>
+                    <div><h4>5009+ пациентов</h4><p>Пациентов прошло лечение</p></div>
                 </div>
                 <div class="achievement-card">
                     <div class="achievement-icon">🎯</div>
-                    <div>
-                        <h4>81%</h4>
-                        <p>Пациентов перешли в ремиссию</p>
-                    </div>
+                    <div><h4>81%</h4><p>Пациентов перешли в ремиссию</p></div>
                 </div>
                 <div class="achievement-card">
                     <div class="achievement-icon">📱</div>
-                    <div>
-                        <h4>Авторский Telegram-канал</h4>
-                        <p>Просветительский проект для пациентов и коллег — @ya_slushayu_tebya.</p>
-                    </div>
+                    <div><h4>Авторский Telegram-канал</h4><p>Просветительский проект для пациентов и коллег — @ya_slushayu_tebya.</p></div>
                 </div>
                 <div class="achievement-card">
                     <div class="achievement-icon">🤝</div>
-                    <div>
-                        <h4>Член ассоциации психиатров</h4>
-                        <p>Активное участие в профессиональном сообществе с 2012 года.</p>
-                    </div>
+                    <div><h4>Член ассоциации психиатров</h4><p>Активное участие в профессиональном сообществе с 2012 года.</p></div>
                 </div>
                 <div class="achievement-card">
                     <div class="achievement-icon">✨</div>
-                    <div>
-                        <h4>86%</h4>
-                        <p>Первичных пациентов пришли по рекомендации</p>
+                    <div><h4>86%</h4><p>Первичных пациентов пришли по рекомендации</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ ЗАБОЛЕВАНИЯ ============ -->
+    <section class="section" id="conditions">
+        <div class="section-inner conditions-wide">
+            <span class="section-label">Специализация</span>
+            <h2 class="section-title">С какими состояниями я работаю</h2>
+            <p class="section-subtitle">Основные группы заболеваний, при которых я могу помочь.</p>
+            <div class="conditions-layout">
+                <div class="condition-card condition-card--large">
+                    <h4>🧠 Психические расстройства</h4>
+                    <ul>
+                        <li>Панические атаки</li><li>Шизофрения</li><li>Психосоматические, соматоформные расстройства, тревожные расстройства</li><li>Созависимые отношения</li><li>Генерализованное тревожное расстройство</li><li>Биполярное расстройство</li><li>ПТСР (посттравматическое стрессовое расстройство)</li><li>Синдром хронической усталости</li><li>Тревожно-депрессивные расстройства</li><li>Пищевые нарушения</li><li>Навязчивые состояния</li><li>Психические расстройства позднего возраста, в том числе деменция</li><li>Расстройства сна</li><li>Задержка психического и речевого развития у детей</li><li>Поведенчиские и эмоциональные нарушения у детей</li><li>Аутизм</li>
+                    </ul>
+                </div>
+                <div class="conditions-subgrid">
+                    <div class="condition-card">
+                        <h4>🍷 Психиатрия-наркология</h4>
+                        <ul>
+                            <li>Проблемы зависимости (химическими и нехимическими)</li><li>Зависимость от алкоголя и наркотиков</li><li>Игровая зависимость</li><li>Интернет и компьютерная зависимость</li><li>Никотиновая зависимость</li><li>Трудоголизм</li><li>Общая склонность к зависимостям</li>
+                        </ul>
+                    </div>
+                    <div class="condition-card">
+                        <h4>🧩 Психотерапия</h4>
+                        <ul>
+                            <li>Когнитивно-поведенческая терапия</li><li>Психоанализ</li><li>Личностно-ориентированная (реконструктивная) психотерапия</li><li>Биосуггестивная терапия</li><li>EMDR-терапия (десенсибилизация и переработка движением глаз)</li><li>Индивидуальная психотерапевтическая работа по собственным методикам</li>
+                        </ul>
+                    </div>
+                    <div class="condition-card">
+                        <h4>🔄 Реабилитация</h4>
+                        <ul>
+                            <li>Реабилитация и социализация пациента и его близких</li><li>Работаю с ведущими реабилитационными центрами России и зарубежными</li>
+                        </ul>
+                    </div>
+                    <div class="condition-card">
+                        <h4>💬 Парное консультирование с психологом</h4>
+                        <ul>
+                            <li>Комплексный подход к одной проблеме</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-	<!-- -->
-	<!-- ============ ЗАБОЛЕВАНИЯ ============ -->
-<!-- ============ ЗАБОЛЕВАНИЯ ============ -->
-<section class="section" id="conditions">
-    <div class="section-inner conditions-wide">
-        <span class="section-label">Специализация</span>
-        <h2 class="section-title">С какими состояниями я работаю</h2>
-        <p class="section-subtitle">Основные группы заболеваний, при которых я могу помочь.</p>
-
-        <div class="conditions-layout">
-            <!-- Большой блок 1 -->
-            <div class="condition-card condition-card--large">
-                <h4>🧠 Психические расстройства</h4>
-                <ul>
-                    <li>Панические атаки</li>
-                    <li>Шизофрения</li>
-                    <li>Психосоматические, соматоформные расстройства, тревожные расстройства</li>
-                    <li>Созависимые отношения</li>
-                    <li>Генерализованное тревожное расстройство</li>
-                    <li>Биполярное расстройство</li>
-                    <li>ПТСР (посттравматическое стрессовое расстройство)</li>
-                    <li>Синдром хронической усталости</li>
-                    <li>Тревожно-депрессивные расстройства</li>
-                    <li>Пищевые нарушения</li>
-                    <li>Навязчивые состояния</li>
-                    <li>Психические расстройства позднего возраста, в том числе деменция</li>
-                    <li>Расстройства сна</li>
-                    <li>Задержка психического и речевого развития у детей</li>
-                    <li>Поведенчиские и эмоциональные нарушения у детей</li>
-                    <li>Аутизм</li>
-                    </ul>
-            </div>
-
-            <!-- Сетка 2×2 из четырёх блоков -->
-            <div class="conditions-subgrid">
-                <div class="condition-card">
-                    <h4>🍷 Психиатрия-наркология</h4>
-                    <ul>
-                        <li>Проблемы зависимости (химическими и нехимическими)</li>
-                        <li>Зависимость от алкоголя и наркотиков</li>
-                        <li>Игровая зависимость</li>
-                        <li>Интернет и компьютерная зависимость</li>
-                        <li>Никотиновая зависимость</li>
-                        <li>Трудоголизм</li>
-                        <li>Общая склонность к зависимостям</li>
-                        </ul>
-                </div>
-                <div class="condition-card">
-                    <h4>🧩 Психотерапия</h4>
-                    <ul>
-                        <li>Когнитивно-поведенческая терапия</li>
-                        <li>Психоанализ</li>
-                        <li>Личностно-ориентированная (реконструктивная) психотерапия</li>
-                        <li>Биосуггестивная терапия</li>
-                        <li>EMDR-терапия (десенсибилизация и переработка движением глаз)</li>
-                        <li>Индивидуальная психотерапевтическая работа по собственным методикам</li>
-                    </ul>
-                </div>
-                <div class="condition-card">
-                    <h4>🔄 Реабилитация</h4>
-                    <ul>
-                        <li>Реабилитация и социализация пациента и его близких</li>
-                        <li>Работаю с ведущими реабилитационными центрами России и зарубежными</li>
-                    </ul>
-                </div>
-                <div class="condition-card">
-                    <h4>💬 Парное консультирование с психологом</h4>
-                    <ul>
-                        <li>Комплексный подход к одной проблеме</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-	<!-- -->
 
     <!-- ============ ЦЕНЫ ============ -->
     <section class="section" id="prices">
@@ -1175,7 +1094,6 @@
                     <div class="price-duration">60 минут</div>
                     <div class="price-desc">Видеозвонок в удобном мессенджере. Диагностика, сбор анамнеза, предварительный план лечения.</div>
                 </div>
-                
                 <div class="price-card">
                     <div class="price-name">Cовместная консультация с психологом</div>
                     <div class="price-amount">16 000 ₽</div>
@@ -1217,34 +1135,21 @@
             <p class="section-subtitle">Запишитесь на приём или задайте вопрос. Я отвечу в ближайшее время.</p>
             <div class="contacts-grid">
                 <div>
-                    
                     <div class="contact-info-item">
                         <div class="contact-icon">📞</div>
-                        <div>
-                            <h4>Телефон</h4>
-                            <p><a href="tel:+79252821277">+7 (925) 282-12-77</a></p>
-                        </div>
+                        <div><h4>Телефон</h4><p><a href="tel:+79252821277">+7 (925) 282-12-77</a></p></div>
                     </div>
                     <div class="contact-info-item">
                         <div class="contact-icon">🟢</div>
-                        <div>
-                            <h4>WhatsApp</h4>
-                            <p><a href="https://wa.me/79252821277">WhatsApp</a></p>
-                        </div>
+                        <div><h4>WhatsApp</h4><p><a href="https://wa.me/79252821277">WhatsApp</a></p></div>
                     </div>
                     <div class="contact-info-item">
                         <div class="contact-icon">✈️</div>
-                        <div>
-                            <h4>Мой Telegram</h4>
-                            <p><a href="https://telegram.me/DrHelenS">Telegram</a></p>
-                        </div>
+                        <div><h4>Мой Telegram</h4><p><a href="https://telegram.me/DrHelenS">Telegram</a></p></div>
                     </div>
                     <div class="contact-info-item">
                         <div class="contact-icon">📱</div>
-                        <div>
-                            <h4>Telegram-канал</h4>
-                            <p><a href="https://t.me/ya_slushayu_tebya" target="_blank" rel="noopener">@ya_slushayu_tebya</a></p>
-                        </div>
+                        <div><h4>Telegram-канал</h4><p><a href="https://t.me/ya_slushayu_tebya" target="_blank" rel="noopener">@ya_slushayu_tebya</a></p></div>
                     </div>
                 </div>
             </div>
@@ -1258,265 +1163,235 @@
     </footer>
 
     <script>
-		// ===== 1. DOM-элементы (объявляем сразу, пока DOM готов) =====
-const carouselContainer = document.getElementById('carouselContainer');
-const indicatorsContainer = document.getElementById('indicators');
-const prevBtn = document.getElementById('carouselPrev');
-const nextBtn = document.getElementById('carouselNext');
+        // ===== 1. DOM-элементы =====
+        const carouselContainer = document.getElementById('carouselContainer');
+        const indicatorsContainer = document.getElementById('indicators');
+        const prevBtn = document.getElementById('carouselPrev');
+        const nextBtn = document.getElementById('carouselNext');
 
-// ===== 2. Глобальные переменные =====
-let articlesData = [];          // загруженные статьи
-let cards = [];                 // DOM-карточки карусели
-let currentIndex = 0;           // текущий активный индекс
+        // ===== 2. Глобальные переменные =====
+        let articlesData = [];
+        let cards = [];
+        let currentIndex = 0;
 
-// ===== 3. Функции карусели =====
-function updateContainerHeight() {
-    const activeCard = cards[currentIndex];
-    if (!activeCard) return;
-    const carousel3d = document.querySelector('.carousel-3d');
-    if (!carousel3d) return;
+        // ===== 3. Функции карусели =====
 
-    requestAnimationFrame(() => {
-        const cardHeight = activeCard.offsetHeight;
-        const scaleActive = 1.12; // базовое значение, можно менять адаптивно
-        const scaledHeight = cardHeight * scaleActive;
-        const minHeight = 380;
-        const newHeight = Math.max(minHeight, scaledHeight + 80);
-        carousel3d.style.height = newHeight + 'px';
-    });
-}
+        function updateCarousel() {
+            if (!cards.length || currentIndex < 0 || currentIndex >= cards.length) return;
 
-function updateCarousel() {
-    const total = cards.length;
-    if (total === 0) return;
+            const width = window.innerWidth;
+            let offset = 170;
+            let scaleFar = 0.7;
+            let scaleSide = 0.85;
+            let scaleActive = 1.12;
+            if (width <= 700) {
+                offset = 120;
+                scaleFar = 0.65;
+                scaleSide = 0.8;
+                scaleActive = 1.08;
+            }
+            if (width <= 400) {
+                offset = 75;
+                scaleFar = 0.55;
+                scaleSide = 0.72;
+                scaleActive = 1.05;
+            }
 
-    const width = window.innerWidth;
-    let offset = 170;
-    let scaleFar = 0.7;
-    let scaleSide = 0.85;
-    let scaleActive = 1.12;
-    if (width <= 700) {
-        offset = 120;
-        scaleFar = 0.65;
-        scaleSide = 0.8;
-        scaleActive = 1.08;
-    }
-    if (width <= 400) {
-        offset = 75;
-        scaleFar = 0.55;
-        scaleSide = 0.72;
-        scaleActive = 1.05;
-    }
+            cards.forEach((card, i) => {
+                const distance = i - currentIndex;
+                card.classList.remove('state-active', 'state-prev', 'state-next', 'state-far');
 
-    cards.forEach((card, i) => {
-        const distance = i - currentIndex;
-        card.classList.remove('state-active', 'state-prev', 'state-next', 'state-far');
+                if (distance === 0) {
+                    card.classList.add('state-active');
+                    card.style.transform = `translateX(0px) scale(${scaleActive})`;
+                    card.style.zIndex = '100';
+                    card.style.opacity = '1';
+                    card.style.pointerEvents = 'auto';
+                } else if (distance === -1) {
+                    card.classList.add('state-prev');
+                    card.style.transform = `translateX(-${offset}px) scale(${scaleSide})`;
+                    card.style.zIndex = '50';
+                    card.style.opacity = '0.75';
+                    card.style.pointerEvents = 'auto';
+                } else if (distance === 1) {
+                    card.classList.add('state-next');
+                    card.style.transform = `translateX(${offset}px) scale(${scaleSide})`;
+                    card.style.zIndex = '50';
+                    card.style.opacity = '0.75';
+                    card.style.pointerEvents = 'auto';
+                } else {
+                    card.classList.add('state-far');
+                    card.style.transform = `translateX(0px) scale(${scaleFar})`;
+                    card.style.zIndex = '10';
+                    card.style.opacity = '0.2';
+                    card.style.pointerEvents = 'none';
+                }
+            });
 
-        if (distance === 0) {
-            card.classList.add('state-active');
-            card.style.transform = `translateX(0px) scale(${scaleActive})`;
-            card.style.zIndex = '100';
-            card.style.opacity = '1';
-            card.style.pointerEvents = 'auto';
-        } else if (distance === -1) {
-            card.classList.add('state-prev');
-            card.style.transform = `translateX(-${offset}px) scale(${scaleSide})`;
-            card.style.zIndex = '50';
-            card.style.opacity = '0.75';
-            card.style.pointerEvents = 'auto';
-        } else if (distance === 1) {
-            card.classList.add('state-next');
-            card.style.transform = `translateX(${offset}px) scale(${scaleSide})`;
-            card.style.zIndex = '50';
-            card.style.opacity = '0.75';
-            card.style.pointerEvents = 'auto';
-        } else {
-            card.classList.add('state-far');
-            card.style.transform = `translateX(0px) scale(${scaleFar})`;
-            card.style.zIndex = '10';
-            card.style.opacity = '0.2';
-            card.style.pointerEvents = 'none';
+            // Обновляем индикаторы
+            const indicators = indicatorsContainer.querySelectorAll('.indicator');
+            indicators.forEach((ind, i) => {
+                ind.classList.toggle('active', i === currentIndex);
+            });
         }
-    });
 
-    // Обновляем индикаторы
-    const indicators = indicatorsContainer.querySelectorAll('.indicator');
-    indicators.forEach((ind, i) => {
-        ind.classList.toggle('active', i === currentIndex);
-    });
+        function goToCard(index) {
+            if (index < 0 || index >= cards.length) return;
+            // сворачиваем предыдущую активную
+            if (cards[currentIndex]) {
+                cards[currentIndex].classList.remove('expanded');
+                const hint = cards[currentIndex].querySelector('.card-expand-hint');
+                if (hint) hint.textContent = 'Нажмите, чтобы развернуть ▾';
+            }
+            currentIndex = index;
+            updateCarousel();
+        }
 
-    updateContainerHeight();
-}
+        function createCarousel() {
+            carouselContainer.innerHTML = '';
+            indicatorsContainer.innerHTML = '';
+            cards = [];
 
-function goToCard(index) {
-    // Сворачиваем предыдущую активную карточку
-    if (cards[currentIndex]) {
-        cards[currentIndex].classList.remove('expanded');
-        const hint = cards[currentIndex].querySelector('.card-expand-hint');
-        if (hint) hint.textContent = 'Нажмите, чтобы развернуть ▾';
-    }
-    currentIndex = index;
-    updateCarousel();
-}
+            articlesData.forEach((article, index) => {
+                const card = document.createElement('div');
+                card.className = 'carousel-card';
+                card.dataset.index = index;
 
-function createCarousel() {
-    carouselContainer.innerHTML = '';
-    indicatorsContainer.innerHTML = '';
-    cards = [];
+                const imgHTML = (article.image && !article.image.includes('logo.jpg'))
+                    ? `<img src="${article.image}" alt="${article.title}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                       <div class="card-img-placeholder" style="display:none;">📄</div>`
+                    : `<div class="card-img-placeholder">${article.link ? '📢' : '📄'}</div>`;
 
-    articlesData.forEach((article, index) => {
-        // Карточка
-        const card = document.createElement('div');
-        card.className = 'carousel-card';
-        card.dataset.index = index;
+                card.innerHTML = `
+                    ${imgHTML}
+                    <div class="card-body">
+                        ${article.date ? `<div class="card-date">${article.date}</div>` : ''}
+                        <div class="card-title">${article.title}</div>
+                        <div class="card-preview">${article.fullText || article.preview}</div>
+                        <span class="card-expand-hint">Нажмите, чтобы ${article.link ? 'перейти' : 'развернуть'} ▾</span>
+                    </div>
+                `;
 
-        const imgHTML = (article.image && !article.image.includes('logo.jpg'))
-            ? `<img src="${article.image}" alt="${article.title}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-               <div class="card-img-placeholder" style="display:none;">📄</div>`
-            : `<div class="card-img-placeholder">${article.link ? '📢' : '📄'}</div>`;
+                card.addEventListener('click', (e) => {
+                    if (index === currentIndex) {
+                        card.classList.toggle('expanded');
+                        const hint = card.querySelector('.card-expand-hint');
+                        if (card.classList.contains('expanded')) {
+                            hint.textContent = 'Свернуть ▴';
+                        } else {
+                            hint.textContent = 'Нажмите, чтобы развернуть ▾';
+                        }
+                    }
+                });
 
-        card.innerHTML = `
-            ${imgHTML}
-            <div class="card-body">
-                ${article.date ? `<div class="card-date">${article.date}</div>` : ''}
-                <div class="card-title">${article.title}</div>
-                <div class="card-preview">${article.fullText || article.preview}</div>
-                <span class="card-expand-hint">Нажмите, чтобы ${article.link ? 'перейти' : 'развернуть'} ▾</span>
-            </div>
-        `;
+                carouselContainer.appendChild(card);
+                cards.push(card);
 
-        card.addEventListener('click', (e) => {
-            if (index === currentIndex) {
-				card.classList.toggle('expanded');
-				const hint = card.querySelector('.card-expand-hint');
-				if (card.classList.contains('expanded')) {
-					hint.textContent = 'Свернуть ▴';
-				} else {
-					hint.textContent = 'Нажмите, чтобы развернуть ▾';
-				}
-			updateContainerHeight();
-}
-        });
+                // Индикатор
+                const indicator = document.createElement('div');
+                indicator.className = 'indicator';
+                indicator.dataset.index = index;
+                indicator.addEventListener('click', () => goToCard(index));
+                indicatorsContainer.appendChild(indicator);
+            });
 
-        carouselContainer.appendChild(card);
-        cards.push(card);
+            updateCarousel();
+        }
 
-        // Индикатор
-        const indicator = document.createElement('div');
-        indicator.className = 'indicator';
-        indicator.dataset.index = index;
-        indicator.addEventListener('click', () => goToCard(index));
-        indicatorsContainer.appendChild(indicator);
-    });
-
-    updateCarousel();
-}
-
-// ===== 4. Навигация по кнопкам =====
-prevBtn.addEventListener('click', () => {
-    const newIndex = (currentIndex - 1 + cards.length) % cards.length;
-    goToCard(newIndex);
-});
-
-nextBtn.addEventListener('click', () => {
-    const newIndex = (currentIndex + 1) % cards.length;
-    goToCard(newIndex);
-});
-
-// ===== 5. Свайп и клавиатура =====
-let touchStartX = 0;
-carouselContainer.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-}, { passive: true });
-
-carouselContainer.addEventListener('touchend', (e) => {
-    const touchEndX = e.changedTouches[0].screenX;
-    const diff = touchStartX - touchEndX;
-    if (Math.abs(diff) > 50) {
-        if (diff > 0) {
-            const newIndex = (currentIndex + 1) % cards.length;
-            goToCard(newIndex);
-        } else {
+        // ===== 4. Навигация =====
+        prevBtn.addEventListener('click', () => {
             const newIndex = (currentIndex - 1 + cards.length) % cards.length;
             goToCard(newIndex);
-        }
-    }
-});
+        });
+        nextBtn.addEventListener('click', () => {
+            const newIndex = (currentIndex + 1) % cards.length;
+            goToCard(newIndex);
+        });
 
-document.addEventListener('keydown', (e) => {
-    const articlesSection = document.getElementById('articles');
-    if (!articlesSection) return;
-    const rect = articlesSection.getBoundingClientRect();
-    const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
-    if (!isVisible) return;
-    if (e.key === 'ArrowLeft') {
-        const newIndex = (currentIndex - 1 + cards.length) % cards.length;
-        goToCard(newIndex);
-    } else if (e.key === 'ArrowRight') {
-        const newIndex = (currentIndex + 1) % cards.length;
-        goToCard(newIndex);
-    }
-});
+        // ===== 5. Свайп и клавиатура =====
+        let touchStartX = 0;
+        carouselContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        carouselContainer.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].screenX;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    const newIndex = (currentIndex + 1) % cards.length;
+                    goToCard(newIndex);
+                } else {
+                    const newIndex = (currentIndex - 1 + cards.length) % cards.length;
+                    goToCard(newIndex);
+                }
+            }
+        });
+        document.addEventListener('keydown', (e) => {
+            const articlesSection = document.getElementById('articles');
+            if (!articlesSection) return;
+            const rect = articlesSection.getBoundingClientRect();
+            const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+            if (!isVisible) return;
+            if (e.key === 'ArrowLeft') {
+                const newIndex = (currentIndex - 1 + cards.length) % cards.length;
+                goToCard(newIndex);
+            } else if (e.key === 'ArrowRight') {
+                const newIndex = (currentIndex + 1) % cards.length;
+                goToCard(newIndex);
+            }
+        });
 
-// ===== 6. Загрузка данных и инициализация =====
-fetch('articles.json')
-    .then(res => {
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        return res.json();
-    })
-    .then(data => {
-        console.log('✅ Статьи загружены:', data);
-        articlesData = data;
-        if (articlesData.length > 0) {
-            createCarousel();
-            currentIndex = Math.floor(articlesData.length / 2); // начнём с середины
-            updateCarousel();
-        } else {
-            console.warn('⚠️ Массив статей пуст');
-        }
-    })
-    .catch(err => {
-        console.error('❌ Ошибка загрузки статей:', err);
-    });
+        // ===== 6. Загрузка данных =====
+        fetch('articles.json')
+            .then(res => {
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                return res.json();
+            })
+            .then(data => {
+                console.log('✅ Статьи загружены:', data);
+                articlesData = data;
+                if (articlesData.length > 0) {
+                    createCarousel();
+                    currentIndex = Math.floor(articlesData.length / 2);
+                    updateCarousel();
+                } else {
+                    console.warn('⚠️ Массив статей пуст');
+                }
+            })
+            .catch(err => {
+                console.error('❌ Ошибка загрузки статей:', err);
+            });
 
-// ===== 7. Адаптивная перестройка при изменении размера окна =====
-window.addEventListener('resize', () => {
-    if (cards.length > 0) {
-        updateCarousel();
-    }
-});
+        // ===== 7. Ресайз =====
+        window.addEventListener('resize', () => {
+            if (cards.length > 0) {
+                updateCarousel();
+            }
+        });
     </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const burger = document.getElementById('navBurger');
+            const navLinks = document.getElementById('navLinks');
+            const overlay = document.getElementById('overlay');
 
-	<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const burger = document.getElementById('navBurger');
-    const navLinks = document.getElementById('navLinks');
-    const overlay = document.getElementById('overlay');
+            function toggleMenu() {
+                burger.classList.toggle('open');
+                navLinks.classList.toggle('open');
+                overlay.classList.toggle('show');
+            }
 
-    // Открыть/закрыть меню
-    function toggleMenu() {
-        burger.classList.toggle('open');
-        navLinks.classList.toggle('open');
-        overlay.classList.toggle('show');
-    }
+            function closeMenu() {
+                burger.classList.remove('open');
+                navLinks.classList.remove('open');
+                overlay.classList.remove('show');
+            }
 
-    // Закрыть меню
-    function closeMenu() {
-        burger.classList.remove('open');
-        navLinks.classList.remove('open');
-        overlay.classList.remove('show');
-    }
-
-    // Клик по бургеру – переключение
-    burger.addEventListener('click', toggleMenu);
-
-    // Клик по оверлею (тёмный фон) – закрытие
-    overlay.addEventListener('click', closeMenu);
-
-    // Клик по любой ссылке в меню – закрытие
-    navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
-});
-</script>
+            burger.addEventListener('click', toggleMenu);
+            overlay.addEventListener('click', closeMenu);
+            navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+        });
+    </script>
 </body>
 </html>
