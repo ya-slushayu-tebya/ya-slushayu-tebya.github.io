@@ -139,34 +139,42 @@
             transform: rotate(-45deg) translate(5px, -5px);
         }
         @media (max-width: 860px) {
-            .nav-burger {
+    .nav-burger {
         display: flex;
     }
+
     .nav-links {
-    	position: fixed;
-    	top: 0;
-    	right: -100%;
-    	width: 280px;
-   		max-width: 90vw;
-    	height: 100dvh;          /* ← динамическая высота, всегда на весь экран */
-    	background: var(--surface);
-    	flex-direction: column;
-    	padding: 100px 20px 30px; /* было 90px, чуть увеличим для баланса */
-    	gap: 2px;
-    	box-shadow: var(--shadow-lg);
-    	transition: right 0.35s ease;
-    	z-index: 1000;
-    	overflow-y: auto;
-    	box-sizing: border-box;
-	}
-    .nav-links.open {
-        right: 0;
+        position: fixed;
+        top: 0;
+        right: 0;                     /* всегда у правого края */
+        width: 280px;
+        max-width: 90vw;
+        height: 100dvh;
+        height: 100vh;                /* fallback */
+        background: var(--surface);
+        flex-direction: column;
+        padding: 80px 20px 30px;
+        gap: 2px;
+        box-shadow: var(--shadow-lg);
+        z-index: 1000;
+        overflow-y: auto;
+        box-sizing: border-box;
+
+        /* Исчезаем за правый край экрана */
+        transform: translateX(100%);
+        visibility: hidden;
+        transition: transform 0.35s ease, visibility 0.35s ease;
     }
-            .nav-links a {
-                font-size: 1rem;
-                padding: 12px 16px;
-            }
-        }
+
+    .nav-links.open {
+        transform: translateX(0);
+        visibility: visible;
+    }
+
+    .nav-links a {
+        font-size: 1rem;
+        padding: 12px 16px;
+    }
 
         /* ── SECTIONS ──────────────────────── */
         .section {
